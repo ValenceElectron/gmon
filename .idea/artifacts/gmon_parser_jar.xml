@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="gmon_parser:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/gmon_parser_jar</output-path>
+    <root id="root">
+      <element id="archive" name="gmon_parser.jar">
+        <element id="module-output" name="gmon_parser" />
+      </element>
+    </root>
+  </artifact>
+</component>
