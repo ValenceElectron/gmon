@@ -34,7 +34,6 @@ public class TempExtract {
             return;
 
         text = new BufferedReader((new FileReader(input)));
-
         isOpen = true;
     }
 
@@ -65,7 +64,7 @@ public class TempExtract {
                 return;
 
             StringTokenizer st = new StringTokenizer(lines.get(i), "C");
-            //System.out.println(Integer.toString(st.countTokens()));
+
             if (st.countTokens() == 2) {
                 while (st.hasMoreTokens()) {
                     DelimitDetected(st.nextToken());
