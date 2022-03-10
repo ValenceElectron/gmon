@@ -26,7 +26,7 @@ public class Statistics {
         return dataset[dataset.length - 1];
     }
 
-    public double Average() {
+    public int Average() {
         int avg = 0, ret = 0;
         for (int i = 0; i < dataset.length; i++) avg += dataset[i];
         return avg / dataset.length;
@@ -34,5 +34,9 @@ public class Statistics {
 
     public int NumberOfValues() {
         return dataset.length;
+    }
+
+    public String GetFieldName() {
+        return name;
     }
 }

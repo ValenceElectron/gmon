@@ -1,11 +1,11 @@
 import datastructs.Statistics;
 
-public class FormatAndDisplay {
+public class FormatDisplay {
     final private Statistics stats;
     private int lineLength;
     private String dashLine;
 
-    public FormatAndDisplay(int[] dataset, String name) {
+    public FormatDisplay(int[] dataset, String name) {
         stats = new Statistics(dataset, name);
         FormatTable();
         PerformStats();
@@ -23,7 +23,7 @@ public class FormatAndDisplay {
 
     private void PerformStats() {
         PEmptyLine();
-        p("Temps");
+        p(stats.GetFieldName());
         PEmptyLine();
         p("Min: " + stats.Minimum());
         p("Max: " + stats.Maximum());
