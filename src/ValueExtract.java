@@ -7,7 +7,8 @@ public class ValueExtract {
     private ArrayList<String> lines;
     final private ArrayList<Integer> values = new ArrayList<>();
     private int[] value;
-    final private File input = new File("/home/valence/", "gputemps.txt");
+    final private String userName = System.getProperty("user.name");
+    final private File input = new File("/home/" + userName + "/Documents/gmon", "gputemps.log"); // Change /valence to something from FileIO
     private Boolean isOpen = false;
 
     public ValueExtract(String FieldName) throws IOException {
@@ -19,6 +20,7 @@ public class ValueExtract {
 
         if (FieldName.equals("Temps")) TempTokenize();
         else if (FieldName.equals("Fan Speed")) FanTokenize();
+        //else if (FieldName.equals("Time")) TimeTokenize();
 
         value = new int[values.size()];
         for (int i = 0; i < values.size(); i++) {
