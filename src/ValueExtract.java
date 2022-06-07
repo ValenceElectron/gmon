@@ -13,7 +13,7 @@ public class ValueExtract {
 
     public ValueExtract(String FieldName) throws IOException {
         try { OpenFile(); }
-        catch (Exception e) {System.out.println("File could not be opened");}
+        catch (Exception e) {System.out.println("File could not be opened. Perhaps no log is generated?");}
 
         values.clear();
         Stringify();
