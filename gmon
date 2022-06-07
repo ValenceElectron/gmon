@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+rm ~/Documents/gmon/gputempsold.log
+mv ~/Documents/gmon/gputemps.log ~/Documents/gmon/gputempsold.log
+
+while true
+do
+    nvidia-smi | tee -a ~/Documents/gmon/gputemps.log
+    sleep 2
+done
