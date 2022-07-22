@@ -5,27 +5,27 @@ import java.util.StringTokenizer;
 public class ValueExtract {
     private BufferedReader text;
     private ArrayList<String> lines;
-    final private ArrayList<Integer> values = new ArrayList<>();
-    private int[] value;
+    final private ArrayList<Integer> temps = new ArrayList<>();
+    final private ArrayList<Integer> speeds = new ArrayList<>();
+    final private int[] tempReturn;
+    final private int[] speedReturn;
     final private String userName = System.getProperty("user.name");
     final private File input = new File("/home/" + userName + "/Documents/gmon", "gputemps.log"); // Change /valence to something from FileIO
     private Boolean isOpen = false;
 
-    public ValueExtract(String FieldName) throws IOException {
+    public ValueExtract() throws IOException {
         try { OpenFile(); }
         catch (Exception e) {System.out.println("File could not be opened. Perhaps no log is generated?");}
 
-        values.clear();
-        Stringify();
+        temps.clear();
+        LogToString();
+        TokenizeStrings();
 
-        if (FieldName.equals("Temps")) TempTokenize();
-        else if (FieldName.equals("Fan Speed")) FanTokenize();
-        //else if (FieldName.equals("Time")) TimeTokenize();
+        tempReturn = new int[temps.size()];
+        for (int i = 0; i < temps.size(); i++) { tempReturn[i] = temps.get(i); }
 
-        value = new int[values.size()];
-        for (int i = 0; i < values.size(); i++) {
-            value[i] = values.get(i);
-        }
+        speedReturn = new int[speeds.size()];
+        for (int i = 0; i < speeds.size(); i++) { speedReturn[i] = speeds.get(i); }
     }
 
     private void OpenFile() throws FileNotFoundException {
@@ -36,9 +36,9 @@ public class ValueExtract {
         isOpen = true;
     }
 
-    private void Stringify() throws IOException {
+    private void LogToString() throws IOException {
         lines = new ArrayList<>();
-        Boolean endOfFile = false;
+        boolean endOfFile = false;
         String line = "";
 
         while (!endOfFile) {
@@ -51,67 +51,47 @@ public class ValueExtract {
         }
     }
 
-    private void TempTokenize() {
-        Boolean endOfLines = false;
-        String temp = "";
+    private void TokenizeStrings() {
+        String currentValue = "";
 
-        if (lines.size() == 0)
-            endOfLines = true;
+        if (lines.size() == 0) return;
 
+        // Currently, even numbers are temps and odd are fan speeds. This pattern will change as more stats are tracked.
         for (int i = 0; i < lines.size(); i++) {
-            if (endOfLines)
-                return;
+            currentValue = lines.get(i);
+            int cV = 0;
 
-            StringTokenizer st = new StringTokenizer(lines.get(i), "C");
-
-            if (st.countTokens() == 2) {
-                while (st.hasMoreTokens()) {
-                    TempDelimitDetected(st.nextToken());
-                }
-            }
-        }
-    }
-
-    private void FanTokenize() {
-        Boolean endOfLines = false;
-        String temp = "";
-
-        if (lines.size() == 0)
-            endOfLines = true;
-
-        for (int i = 0; i < lines.size(); i++) {
-            if (endOfLines)
-                return;
-
-            StringTokenizer st = new StringTokenizer(lines.get(i), "%");
-
-            if (st.countTokens() == 3) {
-                while (st.hasMoreTokens()) {
-                    FanDelimitDetected(st.nextToken());
-                }
-            }
-        }
-    }
-
-    private void TempDelimitDetected(String token) {
-        String line = token.substring(token.length() - 2);
-        try {
-            values.add(Integer.parseInt(line));
-
-        } catch (Exception e) { }
-    }
-
-    private void FanDelimitDetected(String token) {
-        if (token.charAt(0) == '|') {
-            String line = token.substring(token.length() - 2);
+            // in the off chance that somehow a line is logged incorrectly, I'd rather have a try catch to ease a headache.
             try {
-                values.add(Integer.parseInt(line));
-            } catch (Exception e) {}
+                cV = Integer.parseInt(currentValue.substring(0, currentValue.length()-1));
+            } catch (Exception e) {
+                System.out.println("Error parsing log. Line #" + currentValue + " appears to have been logged incorrectly.");
+            }
+
+            // https://stackoverflow.com/a/7342273 bit checking method for even vs odd.
+            if((i & 1) == 0) {
+                temps.add(cV);
+            }
+            else {
+                speeds.add(cV);
+            }
         }
+
+        /* The implementation for this has changed due to the regex implementation in the bash script.
+        I'm leaving it here as a comment for posterity's sake. If ever I need to revert back to string tokenizers,
+        I want some references to be able to fall back to.
+
+        for (int i = 0; i < lines.size() && endOfLines == false; i++) {
+            StringTokenizer st1 = new StringTokenizer(lines.get(i), "C");
+        }*/
     }
 
-    public int[] GetValues() {
-        return value;
+    public int[] GetTemps() {
+        return tempReturn;
+    }
+
+    public int[] GetSpeeds() {
+        return speedReturn;
     }
 
 }
