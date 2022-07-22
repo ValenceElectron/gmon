@@ -19,7 +19,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         ValueExtract ExtractStats = new ValueExtract();
         int[] temps = ExtractStats.GetTemps(); Arrays.sort(temps);
-        int [] fans = ExtractStats.GetSpeeds(); Arrays.sort(fans);
+        int[] fans = ExtractStats.GetSpeeds(); Arrays.sort(fans);
+        //int[][] times = ExtractStats.GetTimes();
         FormatDisplay displayTempStats = new FormatDisplay(temps, "Temps (Celsius)");
         FormatDisplay displayFanStats = new FormatDisplay(fans, "Fan Speed (%)");
     }

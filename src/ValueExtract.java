@@ -7,8 +7,10 @@ public class ValueExtract {
     private ArrayList<String> lines;
     final private ArrayList<Integer> temps = new ArrayList<>();
     final private ArrayList<Integer> speeds = new ArrayList<>();
+    final private ArrayList<int[]> times = new ArrayList<>();
     final private int[] tempReturn;
     final private int[] speedReturn;
+    final private int[][] timeReturn;
     final private String userName = System.getProperty("user.name");
     final private File input = new File("/home/" + userName + "/Documents/gmon", "gputemps.log"); // Change /valence to something from FileIO
     private Boolean isOpen = false;
@@ -19,13 +21,16 @@ public class ValueExtract {
 
         temps.clear();
         LogToString();
-        TokenizeStrings();
+        FormatStrings();
 
         tempReturn = new int[temps.size()];
         for (int i = 0; i < temps.size(); i++) { tempReturn[i] = temps.get(i); }
 
         speedReturn = new int[speeds.size()];
         for (int i = 0; i < speeds.size(); i++) { speedReturn[i] = speeds.get(i); }
+
+        timeReturn = new int[times.size()][];
+        for (int i = 0; i < times.size(); i++) { timeReturn[i] = times.get(i); }
     }
 
     private void OpenFile() throws FileNotFoundException {
@@ -51,39 +56,45 @@ public class ValueExtract {
         }
     }
 
-    private void TokenizeStrings() {
+    private void FormatStrings() {
         String currentValue = "";
+        int query = 0;
 
         if (lines.size() == 0) return;
 
-        // Currently, even numbers are temps and odd are fan speeds. This pattern will change as more stats are tracked.
-        for (int i = 0; i < lines.size(); i++) {
+        int i = 0;
+
+        // No need for if statements since the log file is generated with a set, sequential pattern.
+        while (i < lines.size()) {
             currentValue = lines.get(i);
             int cV = 0;
 
-            // in the off chance that somehow a line is logged incorrectly, I'd rather have a try catch to ease a headache.
-            try {
-                cV = Integer.parseInt(currentValue.substring(0, currentValue.length()-1));
-            } catch (Exception e) {
-                System.out.println("Error parsing log. Line #" + currentValue + " appears to have been logged incorrectly.");
-            }
+            cV = Integer.parseInt(currentValue.substring(0, currentValue.length()-1));
+            temps.add(cV);
+            i++;
 
-            // https://stackoverflow.com/a/7342273 bit checking method for even vs odd.
-            if((i & 1) == 0) {
-                temps.add(cV);
-            }
-            else {
-                speeds.add(cV);
-            }
+            currentValue = lines.get(i);
+            cV = Integer.parseInt(currentValue.substring(0, currentValue.length()-1));
+            speeds.add(cV);
+            i++;
+
+            currentValue = lines.get(i);
+            currentValue = currentValue.trim();
+            times.add(ParseTime(currentValue));
+            i++;
         }
+    }
 
-        /* The implementation for this has changed due to the regex implementation in the bash script.
-        I'm leaving it here as a comment for posterity's sake. If ever I need to revert back to string tokenizers,
-        I want some references to be able to fall back to.
+    // This is needed to break down the time string into its hour, minute, and second components.
+    private int[] ParseTime(String time) {
+        int[] ret = new int[3];
 
-        for (int i = 0; i < lines.size() && endOfLines == false; i++) {
-            StringTokenizer st1 = new StringTokenizer(lines.get(i), "C");
-        }*/
+        StringTokenizer st = new StringTokenizer(time, ":");
+        ret[0] = Integer.parseInt(st.nextToken());
+        ret[1] = Integer.parseInt(st.nextToken());
+        ret[2] = Integer.parseInt(st.nextToken());
+
+        return ret;
     }
 
     public int[] GetTemps() {
@@ -94,4 +105,7 @@ public class ValueExtract {
         return speedReturn;
     }
 
+    public int[][] GetTimes() {
+        return timeReturn;
+    }
 }
