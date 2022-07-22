@@ -1,10 +1,21 @@
 #!/usr/bin/bash
 
-rm ~/Documents/gmon/gputempsold.log
+rm -f ~/Documents/gmon/gputempsold.log
 mv ~/Documents/gmon/gputemps.log ~/Documents/gmon/gputempsold.log
+
+filepath=~/Documents/gmon/gputemps.log
+linecount=0
 
 while true
 do
-    nvidia-smi | tee -a ~/Documents/gmon/gputemps.log
+    #options for grep are as follows:
+    # o: only matching. it will only bother with the text that directly matches the regex expression.
+    # w: only selects lines containing matches that form whole words.
+    # E: interpret patterns as extended regular expressions
+    # e: use patterns as the patterns.
+    nvidia-smi | grep -owEe '[0-9]+C' | tee -a $filepath
+    nvidia-smi | grep -owEe '\|\s[0-9]+%' | tee -a $filepath
+    sed -i 's/|\s//g' $filepath
+
     sleep 2
 done
