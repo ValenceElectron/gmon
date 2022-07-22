@@ -2,11 +2,13 @@
 
 A tool used to parse the output of nvidia-smi
 
+# What's with the name?
+
+gmon was an abbreviation of GPU monitor, and when I made the gmon script, I didn't feel like having to type "GPU\ Monitor" every time I wanted to run it.
+
 # But why though?
 
-I wasn't too satisfied with using GreenWithEnvy's GPU monitoring tools. Don't get me wrong, it's an amazing bit of software and I use it,
-but I want to actively monitor some things about my GPU without the added resource draw that GreenWithEnvy warns about. In comes my bash
-script.
+GreenWithEnvy is a nice set of tools, but I had a few issues with it, and wanted to try my own hand at it.
 
 Simply run a while loop and query nvidia-smi every two seconds, while both displaying the output to a terminal and writing it to
 a log file. When done, shut down the script, execute the gmon_parser.jar and bam, all the stats, right there.
