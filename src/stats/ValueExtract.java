@@ -67,29 +67,22 @@ public class ValueExtract {
         String currentValue = "";
         int query = 0;
 
-        if (lines.size() == 0) return;
-
-        int i = 0;
+        if (lines.size() == 0 || lines == null) return;
 
         // No need for if statements since the log file is generated with a set, sequential pattern.
-        while (i < lines.size()) {
-            currentValue = lines.get(i);
-            int cV = 0;
+        currentValue = lines.get(0);
+        int cV = 0;
 
-            cV = Integer.parseInt(currentValue.substring(0, currentValue.length()-1));
-            temps.add(cV);
-            i++;
+        cV = Integer.parseInt(currentValue.substring(0, currentValue.length()-1));
+        temps.add(cV);
 
-            currentValue = lines.get(i);
-            cV = Integer.parseInt(currentValue.substring(0, currentValue.length()-1));
-            speeds.add(cV);
-            i++;
+        currentValue = lines.get(1);
+        cV = Integer.parseInt(currentValue.substring(0, currentValue.length()-1));
+        speeds.add(cV);
 
-            currentValue = lines.get(i);
-            currentValue = currentValue.trim();
-            times.add(ParseTime(currentValue));
-            i++;
-        }
+        currentValue = lines.get(2);
+        currentValue = currentValue.trim();
+        times.add(ParseTime(currentValue));
     }
 
     // This is needed to break down the time string into its hour, minute, and second components.
@@ -116,9 +109,6 @@ public class ValueExtract {
         try { OpenFile(); }
         catch (Exception e) {System.out.println("File could not be opened. Perhaps no log is generated?");}
 
-        temps.clear();
-        speeds.clear();
-        times.clear();
         LogToString();
         FormatStrings();
 
@@ -130,5 +120,14 @@ public class ValueExtract {
 
         timeReturn = new int[times.size()][];
         for (int i = 0; i < times.size(); i++) { timeReturn[i] = times.get(i); }
+    }
+
+    public void ClearHistory() {
+        temps.clear();
+        speeds.clear();
+        times.clear();
+        tempReturn = new int[0];
+        speedReturn = new int[0];
+        timeReturn = new int[0][];
     }
 }

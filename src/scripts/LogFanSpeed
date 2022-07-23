@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+filepath=$(pwd)/logs/gpufspeed.log
+
+mkdir -p $(pwd)/logs
+rm -f $filepath
+nvidia-smi --query-gpu=fan.speed --format=csv,noheader | tee -a $filepath
