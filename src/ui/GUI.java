@@ -13,7 +13,7 @@ public class GUI extends JPanel {
     private final ValueExtract ve;
     private final Temperature temps;
     private final FanSpeed speeds;
-    private final TimeWidget times;
+    //private final TimeWidget times;
 
     public GUI(ValueExtract values) {
         setLayout(new GridLayout(3,1));
@@ -23,8 +23,8 @@ public class GUI extends JPanel {
         add(temps);
         speeds = new FanSpeed(ve);
         add(speeds);
-        times = new TimeWidget(ve);
-        add(times);
+        //times = new TimeWidget(ve);
+        //add(times);
 
         //add(new JLabel("Fan Speed"));
         //add(new JLabel("Last Update"));
@@ -34,6 +34,6 @@ public class GUI extends JPanel {
         ve.update();
         temps.update();
         speeds.update();
-        times.update();
+        //times.update();
     }
 }

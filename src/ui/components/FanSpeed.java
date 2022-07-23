@@ -25,7 +25,6 @@ public class FanSpeed extends JPanel implements IUpdatablePanel {
 
     @Override
     public void update() {
-        int[] speeds = ve.GetSpeeds();
-        currentSpeed.setText(Integer.toString(speeds[speeds.length - 1]) + "%");
+        currentSpeed.setText(ve.GetFSpeeds().get(ve.GetFSpeeds().size() - 1) + "%");
     }
 }

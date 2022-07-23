@@ -25,7 +25,6 @@ public class Temperature extends JPanel implements IUpdatablePanel {
 
     @Override
     public void update() {
-        int[] temps = ve.GetTemps();
-        currentTemp.setText(Integer.toString(temps[temps.length - 1]) + "C");
+        currentTemp.setText(ve.GetTemps().get(ve.GetTemps().size() - 1) + "C");
     }
 }

@@ -1,3 +1,4 @@
+import scripts.ExecScripts;
 import stats.ValueExtract;
 import ui.FormatDisplay;
 import ui.GUI;
@@ -12,13 +13,15 @@ import java.util.Timer;
 public class Main extends JFrame {
     private final GUI gui;
     private final ValueExtract ve;
+    private final ExecScripts execScripts;
     final private String userName = System.getProperty("user.name");
     final private String gmonDir = "/home/" + userName + "/.local/bin/gmon";
 
-    public Main(String title) throws IOException {
+    public Main(String title) {
         super(title);
 
         ve = new ValueExtract();
+        execScripts = new ExecScripts();
 
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,16 +34,8 @@ public class Main extends JFrame {
     }
 
     private void ExecScript() {
-        Process p;
-        try{
-            String[] cmd = {"sh", gmonDir};
-            p = Runtime.getRuntime().exec(cmd);
-            p.waitFor();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        execScripts.LogTemp();
+        execScripts.LogFSpeed();
     }
 
     public void update() {
