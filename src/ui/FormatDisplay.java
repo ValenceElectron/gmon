@@ -1,4 +1,6 @@
-import datastructs.Statistics;
+package ui;
+
+import stats.datastructs.Statistics;
 
 public class FormatDisplay {
     final private Statistics stats;

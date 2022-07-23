@@ -1,3 +1,5 @@
+package stats;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -8,9 +10,9 @@ public class ValueExtract {
     final private ArrayList<Integer> temps = new ArrayList<>();
     final private ArrayList<Integer> speeds = new ArrayList<>();
     final private ArrayList<int[]> times = new ArrayList<>();
-    final private int[] tempReturn;
-    final private int[] speedReturn;
-    final private int[][] timeReturn;
+    private int[] tempReturn;
+    private int[] speedReturn;
+    private int[][] timeReturn;
     final private String userName = System.getProperty("user.name");
     final private File input = new File("/home/" + userName + "/Documents/gmon", "gputemps.log"); // Change /valence to something from FileIO
     private Boolean isOpen = false;
@@ -20,6 +22,8 @@ public class ValueExtract {
         catch (Exception e) {System.out.println("File could not be opened. Perhaps no log is generated?");}
 
         temps.clear();
+        speeds.clear();
+        times.clear();
         LogToString();
         FormatStrings();
 
@@ -54,6 +58,9 @@ public class ValueExtract {
                 lines.add(line);
             }
         }
+
+        text.close();
+        isOpen = false;
     }
 
     private void FormatStrings() {
@@ -97,15 +104,30 @@ public class ValueExtract {
         return ret;
     }
 
-    public int[] GetTemps() {
-        return tempReturn;
-    }
+    public int[] GetTemps() { return tempReturn; }
 
-    public int[] GetSpeeds() {
-        return speedReturn;
-    }
+    public int[] GetSpeeds() { return speedReturn; }
 
     public int[][] GetTimes() {
         return timeReturn;
+    }
+
+    public void update() throws IOException {
+        try { OpenFile(); }
+        catch (Exception e) {System.out.println("File could not be opened. Perhaps no log is generated?");}
+
+        temps.clear();
+        speeds.clear();
+        times.clear();
+        LogToString();
+        FormatStrings();
+        tempReturn = new int[temps.size()];
+        for (int i = 0; i < temps.size(); i++) { tempReturn[i] = temps.get(i); }
+
+        speedReturn = new int[speeds.size()];
+        for (int i = 0; i < speeds.size(); i++) { speedReturn[i] = speeds.get(i); }
+
+        timeReturn = new int[times.size()][];
+        for (int i = 0; i < times.size(); i++) { timeReturn[i] = times.get(i); }
     }
 }

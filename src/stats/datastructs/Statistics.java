@@ -7,7 +7,7 @@
  * values, etc.
  *****************************************/
 
-package datastructs;
+package stats.datastructs;
 
 public class Statistics {
     final private int[] dataset;
