@@ -121,6 +121,7 @@ public class ValueExtract {
         times.clear();
         LogToString();
         FormatStrings();
+
         tempReturn = new int[temps.size()];
         for (int i = 0; i < temps.size(); i++) { tempReturn[i] = temps.get(i); }
 

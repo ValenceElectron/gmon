@@ -10,8 +10,8 @@ import java.util.Arrays;
 import java.util.Timer;
 
 public class Main extends JFrame {
-    private GUI gui;
-    private ValueExtract ve;
+    private final GUI gui;
+    private final ValueExtract ve;
     final private String userName = System.getProperty("user.name");
     final private String gmonDir = "/home/" + userName + "/.local/bin/gmon";
 
@@ -26,6 +26,7 @@ public class Main extends JFrame {
         gui = new GUI(ve);
         getContentPane().add(gui);
         this.setVisible(true);
+
         update();
     }
 
