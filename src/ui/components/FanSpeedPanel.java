@@ -6,11 +6,11 @@ import stats.ValueExtract;
 import javax.swing.*;
 import java.awt.*;
 
-public class FanSpeed extends JPanel implements IUpdatablePanel {
+public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
     private final ValueExtract ve;
     private JLabel currentSpeed;
 
-    public FanSpeed(ValueExtract ve) {
+    public FanSpeedPanel(ValueExtract ve) {
         this.ve = ve;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

@@ -6,11 +6,11 @@ import stats.ValueExtract;
 import javax.swing.*;
 import java.awt.*;
 
-public class Temperature extends JPanel implements IUpdatablePanel {
+public class TemperaturePanel extends JPanel implements IUpdatablePanel {
     private final ValueExtract ve;
     private JLabel currentTemp;
 
-    public Temperature(ValueExtract ve) {
+    public TemperaturePanel(ValueExtract ve) {
         this.ve = ve;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
