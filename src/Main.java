@@ -1,21 +1,16 @@
 import scripts.ExecScripts;
 import stats.ValueExtract;
-import ui.FormatDisplay;
 import ui.GUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Timer;
 
 public class Main extends JFrame {
     private final GUI gui;
     private final ValueExtract ve;
     private final ExecScripts execScripts;
     final private String userName = System.getProperty("user.name");
-    final private String gmonDir = "/home/" + userName + "/.local/bin/gmon";
 
     public Main(String title) {
         super(title);
