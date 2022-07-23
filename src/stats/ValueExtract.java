@@ -6,24 +6,41 @@ import java.util.StringTokenizer;
 
 public class ValueExtract {
     private BufferedReader text;
+    private BufferedReader tempText;
+    private BufferedReader fSpeedText;
+
     private ArrayList<String> lines;
+    private String tempLine;
+    private String fSpeedLine;
+
     final private ArrayList<Integer> temps = new ArrayList<>();
     final private ArrayList<Integer> speeds = new ArrayList<>();
     final private ArrayList<int[]> times = new ArrayList<>();
     private int[] tempReturn;
     private int[] speedReturn;
     private int[][] timeReturn;
+
     final private String userName = System.getProperty("user.name");
+    final private String workingDir = System.getProperty("user.dir");
     final private File input = new File("/home/" + userName + "/Documents/gmon", "gputemps.log"); // Change /valence to something from FileIO
+    final private File inputTemp = new File(workingDir+"/logs", "gputemps.log");
+    final private File inputFSpeeds = new File(workingDir + "/logs", "gpufspeed.log");
+
     private Boolean isOpen = false;
+    private Boolean isTempOpen = false;
+    private Boolean isFSpeedOpen = false;
 
     public ValueExtract() throws IOException {
+
         try { OpenFile(); }
         catch (Exception e) {System.out.println("File could not be opened. Perhaps no log is generated?");}
+
+        //System.out.println(workingDir);
 
         temps.clear();
         speeds.clear();
         times.clear();
+
         LogToString();
         FormatStrings();
 
@@ -37,6 +54,7 @@ public class ValueExtract {
         for (int i = 0; i < times.size(); i++) { timeReturn[i] = times.get(i); }
     }
 
+    // TODO: remove this entirely
     private void OpenFile() throws FileNotFoundException {
         if (isOpen)
             return;
@@ -45,6 +63,23 @@ public class ValueExtract {
         isOpen = true;
     }
 
+    private void OpenTemps() throws FileNotFoundException {
+        if (isTempOpen)
+            return;
+
+        tempText = new BufferedReader((new FileReader(inputTemp)));
+        isTempOpen = true;
+    }
+
+    private void OpenFSpeeds() throws FileNotFoundException {
+        if (isFSpeedOpen)
+            return;
+
+        fSpeedText = new BufferedReader((new FileReader(inputFSpeeds)));
+        isFSpeedOpen = true;
+    }
+
+    // TODO: remove this entirely.
     private void LogToString() throws IOException {
         lines = new ArrayList<>();
         boolean endOfFile = false;
@@ -63,6 +98,19 @@ public class ValueExtract {
         isOpen = false;
     }
 
+    private void TempLogToString() throws IOException {
+        tempLine = tempText.readLine();
+        tempText.close();
+        isTempOpen = false;
+    }
+
+    private void FSpeedLogToString() throws IOException {
+        fSpeedLine = fSpeedText.readLine();
+        fSpeedText.close();
+        isFSpeedOpen = false;
+    }
+
+    // TODO: Remove this entirely. The refactoring should take care of everything in here.
     private void FormatStrings() {
         String currentValue = "";
         int query = 0;
@@ -85,6 +133,16 @@ public class ValueExtract {
         times.add(ParseTime(currentValue));
     }
 
+    private void FormatTemps() {
+        int currentValue = Integer.parseInt(tempLine);
+        temps.add(currentValue);
+    }
+
+    private void FormatFSpeeds() {
+        int currentValue = Integer.parseInt(fSpeedLine.substring(0, fSpeedLine.length()-2));
+        temps.add(currentValue);
+    }
+
     // This is needed to break down the time string into its hour, minute, and second components.
     private int[] ParseTime(String time) {
         int[] ret = new int[3];
@@ -105,6 +163,7 @@ public class ValueExtract {
         return timeReturn;
     }
 
+    // TODO: refactor so we no longer need int[]'s. Do any converting from ArrayList to Array in specific methods, not in update().
     public void update() throws IOException {
         try { OpenFile(); }
         catch (Exception e) {System.out.println("File could not be opened. Perhaps no log is generated?");}
