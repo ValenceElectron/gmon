@@ -12,8 +12,10 @@ Following that, I made continuous improvements to it and now it's becoming a ful
 
 GreenWithEnvy is a nice set of tools, but I had a few issues with it, and wanted to try my own hand at it.
 
-Simply run a while loop and query nvidia-smi every two seconds, while both displaying the output to a terminal and writing it to
-a log file. When done, shut down the script, execute the gmon_parser.jar and bam, all the stats, right there.
+# Dependencies:
+
+- openjdk-17
+- Nvidia driver version 515 (this may work on older drivers, I haven't tested them).
 
 # Usage:
 

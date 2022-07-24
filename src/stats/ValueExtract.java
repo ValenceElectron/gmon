@@ -1,7 +1,6 @@
 package stats;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class ValueExtract {
     private final Statistics stats;

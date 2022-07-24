@@ -10,6 +10,8 @@ public class LoadConfig {
     private String gpuFanControlState;
     private String workingString;
 
+    private BufferedReader cfgText;
+
     public LoadConfig() throws IOException {
         System.out.println("Checking if config exists.");
         if (config.isFile()) configExists();
@@ -18,7 +20,7 @@ public class LoadConfig {
 
     private void configExists() throws IOException {
         System.out.println("Config exists.");
-        BufferedReader cfgText = new BufferedReader(new FileReader(config));
+        cfgText = new BufferedReader(new FileReader(config));
         workingString = cfgText.readLine();
 
         System.out.println(workingString);
@@ -32,6 +34,7 @@ public class LoadConfig {
             System.out.println("Error reading config. Making new default config.");
             config.delete();
             NoConfig();
+            return;
         }
 
         cfgText.close();
