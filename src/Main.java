@@ -1,3 +1,4 @@
+import control.FanControl;
 import scripts.ExecScripts;
 import stats.Statistics;
 import stats.ValueExtract;
@@ -12,6 +13,7 @@ public class Main extends JFrame {
     private final ValueExtract ve;
     private final Statistics stats;
     private final ExecScripts execScripts;
+    private final FanControl fCon;
     final private String userName = System.getProperty("user.name");
 
     public Main(String title) {
@@ -20,6 +22,7 @@ public class Main extends JFrame {
         stats = new Statistics();
         ve = new ValueExtract(stats);
         execScripts = new ExecScripts();
+        fCon = new FanControl(stats);
 
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
