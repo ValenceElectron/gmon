@@ -4,13 +4,15 @@ Notable changes to the project will be documented in this file.
 
 # [Unreleased]
 ___
-# [1.0] - 2022-07-24
+# [1.0.0] - 2022-07-24
 ___
 
 
 
 ### Added
 
+- gmon can now control GPU fan speed using values specified in the config.
+- Fan curve smoothing added.
 - Added CHANGELOG.md to repository.
 - Added basic config support.
 - Added install.sh
@@ -22,6 +24,7 @@ ___
 
 ### Changed
 
+- Fan curve profiles can now be loaded from the config file.
 - Refactored parts of ValueExtract into Statistics.
 - Time now tracked using LocalTime and currentTimeMillis().
 - Bash script refactored into two separate scripts.
