@@ -2,8 +2,8 @@
 ___
 Notable changes to the project will be documented in this file.
 
-# [Unreleased]
-___
+
+
 # [1.0.0] - 2022-07-24
 ___
 
