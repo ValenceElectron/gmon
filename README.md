@@ -5,7 +5,7 @@ A work-in-progress suite of GPU monitoring and control tools for Nvidia graphics
 # What's with the name?
 
 gmon was an abbreviation of "GPU monitor", and this project started  out predominantly as an actual logging tool. It required a bash script that I had made called "gmon" which called "nvidia-smi"
-every 2 seconds and saved the output into a log file called gputemps.log. The Java program came in when I wanted an easy way to sift through and process all that data. <br>
+every 2 seconds and saved the output into a log file called gputemps.log. The Java program came in when I wanted an easy way to sift through and process all that data.
 Following that, I made continuous improvements to it and now it's becoming a fully-fledged GPU control app.
 
 # But why though?
