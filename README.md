@@ -1,10 +1,12 @@
 # gmon_parser
 
-A tool used to parse the output of nvidia-smi
+A work-in-progress suite of GPU monitoring and control tools for Nvidia graphics cards.
 
 # What's with the name?
 
-gmon was an abbreviation of GPU monitor, and when I made the gmon script, I didn't feel like having to type "GPU\ Monitor" every time I wanted to run it.
+gmon was an abbreviation of "GPU monitor", and this project started  out predominantly as an actual logging tool. It required a bash script that I had made called "gmon" which called "nvidia-smi"
+every 2 seconds and saved the output into a log file called gputemps.log. The Java program came in when I wanted an easy way to sift through and process all that data. <br>
+Following that, I made continuous improvements to it and now it's becoming a fully-fledged GPU control app.
 
 # But why though?
 
@@ -17,16 +19,14 @@ a log file. When done, shut down the script, execute the gmon_parser.jar and bam
 
 First, make sure you're using an Nvidia GPU and the proprietary drivers. It will not work on an AMD card, and I haven't tested it on the Nouveau drivers, though I don't believe it'd work on those either.<br>
 
-Make sure that the bash script, gmon, is executable by using:
+Open up a terminal, navigate to the directory that you'd like to house the repository, and clone it using:
 
-    chmod +x gmon
+    git clone https://github.com/ValenceElectron/gmon_parser.git
 
-After that use:
+After that, head into the directory and give executable permissions to the install.sh (always double check any executable before giving it permissions, please. You never know if its malicious):
 
-    ./gmon
+    cd gmon_parser
+    chmod +x install.sh
 
-and that should get you logging. It'll continuously display the information from the drivers, so you can keep the terminal open on another screen or in the background as you do things. When done, use Ctrl + C to interrupt it, and you can move on to using the parser with:
-
-    java -jar gmon_parser.jar
-
-Use that, and it will display the parsed information in the terminal. If you wanted to make life easier on yourself, you could move gmon into /usr/local/bin so that you can execute it anywhere, without needing to type in the path to it.
+The install script will then create a directory called gmon_parser in ~/.local/bin/ and move the requisite files there. Now, you could make sure that ~/.local/bin/ is in PATH, or you could
+just search for "gmon" in your Applications menu, since it placed a .desktop file in ~/.local/share/applications/. Simply run gmon from either command line or the .desktop, and the monitoring services will start.
