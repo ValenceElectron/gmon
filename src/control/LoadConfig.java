@@ -1,6 +1,7 @@
 package control;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class LoadConfig {
     final private String userName = System.getProperty("user.name");
@@ -8,7 +9,9 @@ public class LoadConfig {
     final private File config = new File(workingDir, "gmon.conf");
 
     private String gpuFanControlState;
-    private String workingString;
+    private ArrayList<String> thresholds;
+    private ArrayList<Integer> tempThresh;
+    private ArrayList<Integer> fSpeedThresh;
 
     private BufferedReader cfgText;
 
@@ -19,6 +22,8 @@ public class LoadConfig {
     }
 
     private void configExists() throws IOException {
+        String workingString;
+
         System.out.println("Config exists.");
         cfgText = new BufferedReader(new FileReader(config));
         workingString = cfgText.readLine();
@@ -37,7 +42,37 @@ public class LoadConfig {
             return;
         }
 
+        thresholds = new ArrayList<>();
+        workingString = "";
+        boolean endOfFile = false;
+
+        while (!endOfFile) {
+            workingString = cfgText.readLine();
+            if (workingString == null) endOfFile = true;
+            else thresholds.add(workingString);
+        }
+
         cfgText.close();
+
+        ParseThresholds();
+    }
+
+    private void ParseThresholds() {
+
+        if (thresholds.size() == 0) {
+            System.out.println("No thresholds in config. Input thresholds using 'GPUFanOne,30,40'");
+            System.out.println("Where 30 is the tempereature in Celsius, and 40 is percentage of fan max speed.");
+            return;
+        }
+
+        tempThresh = new ArrayList<>(); fSpeedThresh = new ArrayList<>();
+
+        for (int i = 0; i < thresholds.size(); i++) {
+            String[] strArr = thresholds.get(i).split(",", 3);
+            //System.out.println(strArr[1] + "," + strArr[2]);
+
+            tempThresh.add(Integer.parseInt(strArr[1])); fSpeedThresh.add(Integer.parseInt(strArr[2]));
+        }
     }
 
     private void NoConfig() throws IOException {
@@ -54,4 +89,7 @@ public class LoadConfig {
     public String GetGPUFanControlState() {
         return gpuFanControlState;
     }
+
+    public ArrayList<Integer> GetTempThresholds() { return tempThresh; }
+    public ArrayList<Integer> GetFSpeedThresholds() { return fSpeedThresh; }
 }
