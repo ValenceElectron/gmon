@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class ExecScripts {
-    //final private String userName = System.getProperty("user.name");
-    final private String workingDir = System.getProperty("user.dir");
+    final private String userName = System.getProperty("user.name");
+    final private String workingDir = "/home/" + userName + "/.local/bin/gmon_parser";
     final private String tempMon = workingDir+"/src/scripts/LogTemp";
     final private String fSpeedMon = workingDir+"/src/scripts/LogFanSpeed";
 

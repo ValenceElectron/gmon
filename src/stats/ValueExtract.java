@@ -19,10 +19,10 @@ public class ValueExtract {
     /*private int[] tempReturn;
     private int[] speedReturn;*/
 
-    //final private String userName = System.getProperty("user.name");
-    final private String workingDir = System.getProperty("user.dir");
-    final private File inputTemp = new File(workingDir+"/logs", "gputemps.log");
-    final private File inputFSpeeds = new File(workingDir + "/logs", "gpufspeed.log");
+    final private String userName = System.getProperty("user.name");
+    final private String workingDir = "/home/" + userName + "/.local/bin/gmon_parser/logs";
+    final private File inputTemp = new File(workingDir, "gputemps.log");
+    final private File inputFSpeeds = new File(workingDir, "gpufspeed.log");
 
     private Boolean isTempOpen = false;
     private Boolean isFSpeedOpen = false;
@@ -60,6 +60,7 @@ public class ValueExtract {
     }
 
     private void TempLogToString() throws IOException {
+        //System.out.println(workingDir);
         tempLine = tempText.readLine();
         tempText.close();
         isTempOpen = false;

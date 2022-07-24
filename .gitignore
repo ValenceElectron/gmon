@@ -1,4 +1,4 @@
 # Project exclude paths
 /out/
 /logs/
-gmon_parser.jar
+resources/gmon_parser.jar

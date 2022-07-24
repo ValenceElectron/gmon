@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-filepath=$(pwd)/logs/gputemps.log
+filepath=~/.local/bin/gmon_parser/logs/gputemps.log
 
-mkdir -p $(pwd)/logs
+mkdir -p ~/.local/bin/gmon_parser/logs
 rm -f $filepath
 nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader | tee -a $filepath

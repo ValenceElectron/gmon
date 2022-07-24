@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+java -jar ~/.local/bin/gmon_parser/gmon_parser.jar
