@@ -13,7 +13,8 @@
 
 import java.io.IOException;
 
+// This class exists simply for the possibility that I want to add boot arguments
 public class Boot {
 
-    public static void main(String[] args) throws IOException { new Main("gmon"); }
+    public static void main(String[] args) { new Main("gmon"); }
 }
