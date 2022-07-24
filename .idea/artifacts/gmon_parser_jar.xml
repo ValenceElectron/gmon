@@ -1,10 +1,11 @@
 <component name="ArtifactManager">
-  <artifact name="gmon_parser:jar">
+  <artifact type="jar" name="gmon_parser:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/gmon_parser_jar</output-path>
-    <root id="root">
-      <element id="archive" name="gmon_parser.jar">
-        <element id="module-output" name="gmon_parser" />
+    <root id="archive" name="gmon_parser.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/resources/META-INF/MANIFEST.MF" />
       </element>
+      <element id="module-output" name="gmon_parser" />
     </root>
   </artifact>
 </component>
