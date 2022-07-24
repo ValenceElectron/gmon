@@ -80,7 +80,7 @@ public class FanControl {
 
         Process p;
         try{
-            String[] cmd = {"sh", fanCon, Integer.toString(thresholds.get(index)[1])};
+            String[] cmd = {"sh", fanCon, "1", Integer.toString(thresholds.get(index)[1])};
             p = Runtime.getRuntime().exec(cmd);
             p.waitFor();
         } catch (IOException e) {
@@ -105,5 +105,18 @@ public class FanControl {
         if (cfg.GetGPUFanControlState().equals("0")) return;
         currentTemp = stats.GetCurrentTemp();
         UpdateFanSpeed();
+    }
+
+    public void quit() {
+        Process p;
+        try{
+            String[] cmd = {"sh", fanCon, "1", "38"};
+            p = Runtime.getRuntime().exec(cmd);
+            p.waitFor();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

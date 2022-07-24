@@ -6,6 +6,8 @@ import ui.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.*;
 
 public class Main extends JFrame {
@@ -25,12 +27,48 @@ public class Main extends JFrame {
         fCon = new FanControl(stats);
 
         setLayout(new BorderLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(200,300);
         gui = new GUI(stats);
         getContentPane().add(gui);
         this.setVisible(true);
 
+        this.addWindowListener(new WindowListener() {
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (getState() == Frame.ICONIFIED) {
+                    fCon.quit();
+                    System.exit(0);
+                }
+                else setState(Frame.ICONIFIED);
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                setState(Frame.NORMAL);
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+            }
+        });
         update();
     }
 
