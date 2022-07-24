@@ -48,6 +48,7 @@ public class Main extends JFrame {
             try {
                 ExecScript();
                 ve.update();
+                fCon.update();
                 gui.update();
             } catch (IOException e) { throw new RuntimeException(e); }
 

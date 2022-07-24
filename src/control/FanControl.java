@@ -10,10 +10,14 @@ public class FanControl {
     private final Statistics stats;
     private LoadConfig cfg;
 
+    final private String userName = System.getProperty("user.name");
+    final private String workingDir = "/home/" + userName + "/.local/bin/gmon_parser";
+    final private String fanCon = workingDir+"/src/scripts/fanCon";
+
     private int currentTemp;
     private ArrayList<Integer> tempThresholds;
     private ArrayList<Integer> fSpeedThresholds;
-    private ArrayList<Vector<Integer>> thresholds;
+    private ArrayList<int[]> thresholds;
 
 
 
@@ -64,17 +68,37 @@ public class FanControl {
         thresholds = new ArrayList<>();
 
         for (int i = 0; i < tempArr.length; i++) {
-            //System.out.println(tempArr[i] + ", " + fSpeedArr[i]);
-            thresholds.add(new Vector<Integer>(tempArr[i], fSpeedArr[i]));
+            System.out.println(tempArr[i] + ", " + fSpeedArr[i]);
+            thresholds.add(new int[2]);
+            thresholds.get(i)[0] = tempArr[i];
+            thresholds.get(i)[1] = fSpeedArr[i];
         }
     }
 
     private void UpdateFanSpeed() {
+        int index = DetermineCorrectFSpeed();
 
+        Process p;
+        try{
+            String[] cmd = {"sh", fanCon, Integer.toString(thresholds.get(index)[1])};
+            p = Runtime.getRuntime().exec(cmd);
+            p.waitFor();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void DetermineCorrectSpeed() {
+    private int DetermineCorrectFSpeed() {
+        for (int i = 0; i < thresholds.size(); i++) {
+            if (currentTemp <= thresholds.get(i)[0]) {
+                //System.out.println(thresholds.get(i)[0]);
+                return i;
+            }
+        }
 
+        return 0;
     }
 
     public void update() {
