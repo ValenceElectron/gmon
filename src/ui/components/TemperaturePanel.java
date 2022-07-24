@@ -1,21 +1,20 @@
 package ui.components;
 
 import interfaces.IUpdatablePanel;
-import stats.ValueExtract;
-
+import stats.Statistics;
 import javax.swing.*;
 import java.awt.*;
 
 public class TemperaturePanel extends JPanel implements IUpdatablePanel {
-    private final ValueExtract ve;
+    private final Statistics stats;
     private JLabel currentTemp;
     private JLabel additionalTempStat;
 
     private int peakTemp = 0;
     private int avgTemp = 0;
 
-    public TemperaturePanel(ValueExtract ve) {
-        this.ve = ve;
+    public TemperaturePanel(Statistics stats) {
+        this.stats = stats;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JLabel tempText = new JLabel("Temperature");
@@ -34,21 +33,14 @@ public class TemperaturePanel extends JPanel implements IUpdatablePanel {
     public void update() {
         peak();
         avg();
-        currentTemp.setText(ve.GetTemps().get(ve.GetTemps().size() - 1) + "C");
+        currentTemp.setText(stats.GetCurrentTemp() + "C");
         additionalTempStat.setText("Average: " + avgTemp + ", Peak: " + peakTemp);
     }
 
     @Override
-    public void peak() {
-        peakTemp = ve.GetTempPeak();
-    }
+    public void peak() { peakTemp = stats.GetPeakTemp(); }
 
     public void avg() {
-        int sum = 0;
-        for (int i = 0; i < ve.GetTemps().size(); i++) {
-            sum += ve.GetTemps().get(i);
-        }
-
-        avgTemp = sum/ve.GetTemps().size();
+        avgTemp = stats.GetAverageTemps();
     }
 }

@@ -1,5 +1,6 @@
 package ui;
 
+import stats.Statistics;
 import stats.ValueExtract;
 import ui.components.FanSpeedPanel;
 import ui.components.TemperaturePanel;
@@ -10,25 +11,24 @@ import java.awt.*;
 import java.io.IOException;
 
 public class GUI extends JPanel {
-    private final ValueExtract ve;
+    private final Statistics stats;
     private final TemperaturePanel temps;
     private final FanSpeedPanel fSpeeds;
     private final TimePanel times;
 
-    public GUI(ValueExtract values) {
+    public GUI(Statistics stats) {
         setLayout(new GridLayout(3,1));
-        this.ve = values;
+        this.stats = stats;
 
-        temps = new TemperaturePanel(ve);
+        temps = new TemperaturePanel(stats);
         add(temps);
-        fSpeeds = new FanSpeedPanel(ve);
+        fSpeeds = new FanSpeedPanel(stats);
         add(fSpeeds);
-        times = new TimePanel(ve);
+        times = new TimePanel(stats);
         add(times);
     }
 
     public void update() throws IOException {
-        ve.update();
         temps.update();
         fSpeeds.update();
         times.update();

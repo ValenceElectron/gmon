@@ -1,21 +1,22 @@
 package ui.components;
 
 import interfaces.IUpdatablePanel;
-import stats.ValueExtract;
-
+import stats.Statistics;
 import javax.swing.*;
 import java.awt.*;
 
 public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
-    private final ValueExtract ve;
+    private final Statistics stats;
+
     private JLabel currentFSpeed;
     private JLabel additionalFSpeedStat;
 
     private int peakFSpeed;
     private int avgFSpeed;
 
-    public FanSpeedPanel(ValueExtract ve) {
-        this.ve = ve;
+    public FanSpeedPanel(Statistics stats) {
+        this.stats = stats;
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JLabel tempText = new JLabel("Fan Speed");
@@ -34,21 +35,16 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
     public void update() {
         peak();
         avg();
-        currentFSpeed.setText(ve.GetFSpeeds().get(ve.GetFSpeeds().size() - 1) + "%");
+        currentFSpeed.setText(stats.GetCurrentFSpeed() + "%");
         additionalFSpeedStat.setText("Average: " + avgFSpeed + ", Peak: " + peakFSpeed);
     }
 
     @Override
     public void peak() {
-        peakFSpeed = ve.GetFSpeedPeak();
+        peakFSpeed = stats.GetPeakFSpeed();
     }
 
     public void avg() {
-        int sum = 0;
-        for (int i = 0; i < ve.GetFSpeeds().size(); i++) {
-            sum += ve.GetFSpeeds().get(i);
-        }
-
-        avgFSpeed = sum/ve.GetFSpeeds().size();
+        avgFSpeed = stats.GetAverageFSpeeds();
     }
 }

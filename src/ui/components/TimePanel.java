@@ -1,7 +1,7 @@
 package ui.components;
 
+import stats.Statistics;
 import interfaces.IUpdatablePanel;
-import stats.ValueExtract;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TimePanel extends JPanel implements IUpdatablePanel {
-    private final ValueExtract ve;
+    private final Statistics stats;
 
     private JLabel currentTime;
     private JLabel peakTime;
@@ -23,23 +23,16 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
     private int peakIndex = 0;
     private String elapsedTime;
 
-    public TimePanel(ValueExtract ve) {
-        this.ve = ve;
+    public TimePanel(Statistics stats) {
+        this.stats = stats;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         startTime = System.currentTimeMillis();
 
-        //JLabel timeText = new JLabel("Logged at: ");
-        //currentTime = new JLabel("0");
         peakTime = new JLabel("Peaked at: " + 0);
         elapsedTimeLabel = new JLabel("Time elapsed: " + 0);
-        //timeText.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //currentTime.setAlignmentX(Component.CENTER_ALIGNMENT);
         peakTime.setAlignmentX(Component.CENTER_ALIGNMENT);
         elapsedTimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        //add(timeText);
-        //add(currentTime);
         add(peakTime);
         add(elapsedTimeLabel);
     }
@@ -56,7 +49,7 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
 
     @Override
     public void peak() {
-        peakIndex = ve.GetPeakIndex();
+        peakIndex = stats.GetPeakIndex();
     }
 
     private void HowMuchTimeElapsed() {

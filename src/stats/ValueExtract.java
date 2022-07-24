@@ -4,20 +4,13 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class ValueExtract {
+    private final Statistics stats;
+
     private BufferedReader tempText;
     private BufferedReader fSpeedText;
 
     private String tempLine;
     private String fSpeedLine;
-
-    private int peakTemp = 0;
-    private int peakFSpeed = 0;
-    private int peakIndex = 0;
-
-    final private ArrayList<Integer> temps = new ArrayList<>();
-    final private ArrayList<Integer> fSpeeds = new ArrayList<>();
-    /*private int[] tempReturn;
-    private int[] speedReturn;*/
 
     final private String userName = System.getProperty("user.name");
     final private String workingDir = "/home/" + userName + "/.local/bin/gmon_parser/logs";
@@ -27,9 +20,8 @@ public class ValueExtract {
     private Boolean isTempOpen = false;
     private Boolean isFSpeedOpen = false;
 
-    public ValueExtract() {
-        temps.clear();
-        fSpeeds.clear();
+    public ValueExtract(Statistics stats) {
+        this.stats = stats;
     }
 
 
@@ -60,7 +52,6 @@ public class ValueExtract {
     }
 
     private void TempLogToString() throws IOException {
-        //System.out.println(workingDir);
         tempLine = tempText.readLine();
         tempText.close();
         isTempOpen = false;
@@ -79,45 +70,18 @@ public class ValueExtract {
 
     private void FormatTemps() {
         int currentValue = Integer.parseInt(tempLine);
-        temps.add(currentValue);
+        stats.AddTemp(currentValue);
     }
 
     private void FormatFSpeeds() {
         int currentValue = Integer.parseInt(fSpeedLine.substring(0, fSpeedLine.length()-2));
-        fSpeeds.add(currentValue);
+        stats.AddFSpeed(currentValue);
     }
-
-    private void FindPeaks() {
-        if(peakTemp <= temps.get(temps.size() - 1)) {
-            peakTemp = temps.get(temps.size() - 1);
-            peakIndex = temps.size() - 1;
-        }
-
-        if(peakFSpeed <= fSpeeds.get(fSpeeds.size() - 1)) peakFSpeed = fSpeeds.get(fSpeeds.size() - 1);
-    }
-
-    public ArrayList<Integer> GetTemps() { return temps; }
-
-    public int GetTempPeak() { return peakTemp; }
-
-    public ArrayList<Integer> GetFSpeeds() { return fSpeeds; }
-
-    public int GetFSpeedPeak() { return peakFSpeed; }
-
-    public int GetPeakIndex() { return peakIndex; }
 
     public void update() throws IOException {
         try { OpenFiles(); }
         catch (Exception e) { System.out.println("File could not be opened. Perhaps no log is generated?"); }
         LogsToStrings();
         FormatStrings();
-        FindPeaks();
     }
-
-    /*public void ClearHistory() {
-        temps.clear();
-        fSpeeds.clear();
-        tempReturn = new int[0];
-        speedReturn = new int[0];
-    }*/
 }

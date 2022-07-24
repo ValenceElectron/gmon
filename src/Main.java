@@ -1,4 +1,5 @@
 import scripts.ExecScripts;
+import stats.Statistics;
 import stats.ValueExtract;
 import ui.GUI;
 
@@ -9,19 +10,21 @@ import java.io.*;
 public class Main extends JFrame {
     private final GUI gui;
     private final ValueExtract ve;
+    private final Statistics stats;
     private final ExecScripts execScripts;
     final private String userName = System.getProperty("user.name");
 
     public Main(String title) {
         super(title);
 
-        ve = new ValueExtract();
+        stats = new Statistics();
+        ve = new ValueExtract(stats);
         execScripts = new ExecScripts();
 
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(200,300);
-        gui = new GUI(ve);
+        gui = new GUI(stats);
         getContentPane().add(gui);
         this.setVisible(true);
 
@@ -33,15 +36,20 @@ public class Main extends JFrame {
         execScripts.LogFSpeed();
     }
 
+    private void ExecControl() {
+
+    }
+
     public void update() {
         while (true) {
             try {
                 ExecScript();
+                ve.update();
                 gui.update();
             } catch (IOException e) { throw new RuntimeException(e); }
 
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) { e.printStackTrace();}
         }
     }
