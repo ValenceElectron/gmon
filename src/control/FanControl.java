@@ -4,7 +4,6 @@ import stats.Statistics;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class FanControl {
     private final Statistics stats;
@@ -68,7 +67,7 @@ public class FanControl {
         thresholds = new ArrayList<>();
 
         for (int i = 0; i < tempArr.length; i++) {
-            System.out.println(tempArr[i] + ", " + fSpeedArr[i]);
+            //System.out.println(tempArr[i] + ", " + fSpeedArr[i]);
             thresholds.add(new int[2]);
             thresholds.get(i)[0] = tempArr[i];
             thresholds.get(i)[1] = fSpeedArr[i];
@@ -80,7 +79,7 @@ public class FanControl {
 
         Process p;
         try{
-            String[] cmd = {"sh", fanCon, Integer.toString(thresholds.get(index)[1])};
+            String[] cmd = {"sh", fanCon, "1", Integer.toString(thresholds.get(index)[1])};
             p = Runtime.getRuntime().exec(cmd);
             p.waitFor();
         } catch (IOException e) {
@@ -105,5 +104,18 @@ public class FanControl {
         if (cfg.GetGPUFanControlState().equals("0")) return;
         currentTemp = stats.GetCurrentTemp();
         UpdateFanSpeed();
+    }
+
+    public void quit() {
+        Process p;
+        try{
+            String[] cmd = {"sh", fanCon, "1", "38"};
+            p = Runtime.getRuntime().exec(cmd);
+            p.waitFor();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
