@@ -4,7 +4,6 @@ import stats.Statistics;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class FanControl {
     private final Statistics stats;
@@ -68,7 +67,7 @@ public class FanControl {
         thresholds = new ArrayList<>();
 
         for (int i = 0; i < tempArr.length; i++) {
-            System.out.println(tempArr[i] + ", " + fSpeedArr[i]);
+            //System.out.println(tempArr[i] + ", " + fSpeedArr[i]);
             thresholds.add(new int[2]);
             thresholds.get(i)[0] = tempArr[i];
             thresholds.get(i)[1] = fSpeedArr[i];

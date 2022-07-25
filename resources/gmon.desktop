@@ -3,6 +3,5 @@ Encoding=UTF-8
 Version=1.0
 Type=Application
 Terminal=false
-Exec=~/.local/bin/gmon
 Name=gmon
-Icon=
+Icon=/home/$USER/.local/bin/gmon_parser/gmon_logo.png

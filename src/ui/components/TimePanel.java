@@ -4,6 +4,8 @@ import stats.Statistics;
 import interfaces.IUpdatablePanel;
 import java.util.concurrent.TimeUnit;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -23,17 +25,23 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
     private int peakIndex = 0;
     private String elapsedTime;
 
-    public TimePanel(Statistics stats) {
+    public TimePanel(Statistics stats, Color bgColor, Color fgColor) {
         this.stats = stats;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         startTime = System.currentTimeMillis();
 
-        peakTime = new JLabel("Peaked at: " + 0);
+        //peakTime = new JLabel("Peaked at: " + 0);
         elapsedTimeLabel = new JLabel("Time elapsed: " + 0);
-        peakTime.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //peakTime.setAlignmentX(Component.CENTER_ALIGNMENT);
         elapsedTimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        add(peakTime);
+        //peakTime.setForeground(fgColor);
+        elapsedTimeLabel.setForeground(fgColor);
+        elapsedTimeLabel.setBackground(bgColor);
+
+        elapsedTimeLabel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
+
+        //add(peakTime);
         add(elapsedTimeLabel);
     }
 
@@ -43,9 +51,16 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
         HowMuchTimeElapsed();
         times.add(LocalTime.now());
         //currentTime.setText(times.get(times.size() -1).format(timeFormatter));
-        peakTime.setText("Peaked at: " + times.get(peakIndex).format(timeFormatter));
+        //peakTime.setText("Peaked at: " + times.get(peakIndex).format(timeFormatter));
         elapsedTimeLabel.setText("Time elapsed: " + elapsedTime);
     }
+
+    @Override
+    public void update(LocalTime peak) {
+
+    }
+
+    public LocalTime GetPeakTime() { return times.get(peakIndex); }
 
     @Override
     public void peak() {

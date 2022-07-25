@@ -21,6 +21,7 @@ public class LoadConfig {
         else NoConfig();
     }
 
+    // TODO: Make sure config file specifies at least 2 points on fan curve, if not, load default fan curve.
     private void configExists() throws IOException {
         String workingString;
 
