@@ -2,7 +2,25 @@
 ___
 Notable changes to the project will be documented in this file.
 
+# [v1.0.1-Unreleased] - 2022-07-25
+___
+Small updates to the look of the app.
 
+### Added
+
+- System tray icon.
+- An example config to load as default.
+
+### Changed
+
+- Boot.java renamed to gmon.java so that app titles appear consistent.
+- Hid averages, peaks, and peak times in tooltips.
+- Gave the stat panels bevels.
+
+### Known Issues
+
+- Trying to load a config with only a single fan curve point causes a crash.
+- System tray icon is blank instead of displaying the gmon logo.
 
 # [1.0.0] - 2022-07-24
 ___
