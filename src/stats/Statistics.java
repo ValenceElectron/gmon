@@ -26,9 +26,6 @@ public class Statistics {
     private int peakFSpeed;
     private int peakIndex;
 
-    //private int[] tempsArr;
-    //private int[] fSpeedsArr;
-
     public Statistics() {
         tempsList = new ArrayList<>();
         fSpeedsList = new ArrayList<>();
@@ -38,12 +35,12 @@ public class Statistics {
 
     public void AddTemp(int temp) {
         tempsList.add(temp);
-        TempPeak();
+        DetermineTempPeak();
     }
 
     public void AddFSpeed(int fspeed) {
         fSpeedsList.add(fspeed);
-        FSpeedPeak();
+        DetermineFSpeedPeak();
     }
 
     public int GetCurrentTemp() { return tempsList.get(tempsList.size() - 1); }
@@ -74,14 +71,14 @@ public class Statistics {
         return sum/fSpeedsList.size();
     }
 
-    private void TempPeak() {
+    private void DetermineTempPeak() {
         if (peakTemp <= tempsList.get(tempsList.size() - 1)) {
             peakTemp = tempsList.get(tempsList.size() - 1);
             peakIndex = tempsList.size() - 1;
         }
     }
 
-    private void FSpeedPeak() {
+    private void DetermineFSpeedPeak() {
         if (peakFSpeed <= fSpeedsList.get(fSpeedsList.size() - 1)) peakFSpeed = fSpeedsList.get(fSpeedsList.size() - 1);
     }
 }

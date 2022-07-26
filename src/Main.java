@@ -54,7 +54,7 @@ public class Main extends JFrame {
         stats = new Statistics();
         ve = new ValueExtract(stats);
         execScripts = new ExecScripts();
-        fCon = new FanControl(stats);
+        fCon = new FanControl(stats, execScripts);
         gui = new GUI(stats, bgColor, fgColor);
         systemTray = SystemTray.getSystemTray();
 
@@ -148,7 +148,7 @@ public class Main extends JFrame {
     }
 
     public void quit() {
-        fCon.quit();
+        execScripts.quit();
         System.exit(0);
     }
 
