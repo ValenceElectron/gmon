@@ -2,12 +2,13 @@
 ___
 Notable changes to the project will be documented in this file.
 
-# [v1.0.1-Unreleased] - 2022-07-25
+# [v1.1.0] - 2022-07-26
 ___
-Small updates to the look of the app.
+Small updates to the look and licensing of the app.
 
 ### Added
 
+- Project is now licensed under the Mozilla Public License 2.0 (MPL2.0)
 - System tray icon.
 - An example config to load as default.
 
