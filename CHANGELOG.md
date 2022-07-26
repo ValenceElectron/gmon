@@ -13,6 +13,8 @@ Small updates to the look of the app.
 
 ### Changed
 
+- TimePanel reworked to look more similar to TemperaturePanel and FanSpeedPanel.
+- Refactored code to look cleaner.
 - Boot.java renamed to gmon.java so that app titles appear consistent.
 - Hid averages, peaks, and peak times in tooltips.
 - Gave the stat panels bevels.

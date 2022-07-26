@@ -14,8 +14,7 @@ import java.util.ArrayList;
 public class TimePanel extends JPanel implements IUpdatablePanel {
     private final Statistics stats;
 
-    private JLabel currentTime;
-    private JLabel peakTime;
+    private JLabel elapsedTimeText;
     private JLabel elapsedTimeLabel;
 
     private ArrayList<LocalTime> times = new ArrayList<>();
@@ -30,18 +29,20 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         startTime = System.currentTimeMillis();
 
-        //peakTime = new JLabel("Peaked at: " + 0);
-        elapsedTimeLabel = new JLabel("Time elapsed: " + 0);
-        //peakTime.setAlignmentX(Component.CENTER_ALIGNMENT);
+        elapsedTimeText = new JLabel("Time Elapsed:");
+        elapsedTimeLabel = new JLabel("0");
+        elapsedTimeText.setAlignmentX(Component.CENTER_ALIGNMENT);
         elapsedTimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        //peakTime.setForeground(fgColor);
+        elapsedTimeText.setForeground(fgColor);
+        elapsedTimeText.setBackground(bgColor);
         elapsedTimeLabel.setForeground(fgColor);
         elapsedTimeLabel.setBackground(bgColor);
 
         elapsedTimeLabel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
 
-        //add(peakTime);
+        add(elapsedTimeText);
+        add(Box.createRigidArea(new Dimension(0,10)));
         add(elapsedTimeLabel);
     }
 
@@ -50,11 +51,11 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
         peak();
         HowMuchTimeElapsed();
         times.add(LocalTime.now());
-        //currentTime.setText(times.get(times.size() -1).format(timeFormatter));
-        //peakTime.setText("Peaked at: " + times.get(peakIndex).format(timeFormatter));
-        elapsedTimeLabel.setText("Time elapsed: " + elapsedTime);
+        elapsedTimeLabel.setText(elapsedTime);
     }
 
+    // Currently unused. Byproduct of implementing IUpdatablePanel
+    //
     @Override
     public void update(LocalTime peak) {
 

@@ -11,6 +11,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
 
+// TODO: Refactor Main into a singleton.
+
+// V2.0.0 TODO: Get whether user is using light or dark mode, apply colors based on that.
 public class Main extends JFrame {
     private final GUI gui;
     private final ValueExtract ve;
