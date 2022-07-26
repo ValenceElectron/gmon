@@ -30,6 +30,7 @@ import java.awt.event.WindowEvent;
 import java.io.*;
 
 // TODO: Refactor Main into a singleton.
+// TODO: Add another option on TrayIcon to unhide gmon.
 
 // V2.0.0 TODO: Get whether user is using light or dark mode, apply colors based on that.
 public class Main extends JFrame {
@@ -67,6 +68,10 @@ public class Main extends JFrame {
 
     private void init() {
         setLayout(new BorderLayout());
+
+        // DefaultCloseOperation set to DO_NOTHING currently. An option for the tray icon to open gmon needs to be added,
+        // then it will be est to HIDE_ON_CLOSE, and that option would unhide it.
+        //
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(200,300);
         setBackground(bgColor);
@@ -75,18 +80,14 @@ public class Main extends JFrame {
         SetupWindowListener();
 
         this.setIconImage(icon);
-        //System.out.println("Set application icon");
 
         InitSystemTray();
 
         getContentPane().add(gui);
-
         this.setVisible(true);
     }
 
     private void InitSystemTray() {
-        //System.out.println("Initializing tray icon.");
-        //System.out.println(systemTray.isSupported());
         PopupMenu trayPopupMenu = new PopupMenu();
         MenuItem menuQuit = new MenuItem("Quit");
         menuQuit.addActionListener(new ActionListener() {
@@ -96,12 +97,12 @@ public class Main extends JFrame {
             }
         });
         trayPopupMenu.add(menuQuit);
-        TrayIcon trayIcon = new TrayIcon(icon, "gmon", trayPopupMenu);
-        trayIcon.setImageAutoSize(true);
+        TrayIcon gmonIcon = new TrayIcon(icon, "gmon", trayPopupMenu);
+        gmonIcon.setImageAutoSize(true);
 
         try {
-            systemTray.add(trayIcon);
-            trayIcon.setImage(icon);
+            systemTray.add(gmonIcon);
+            gmonIcon.setImage(icon);
 
         } catch (AWTException e) {
             throw new RuntimeException(e);
@@ -109,6 +110,9 @@ public class Main extends JFrame {
     }
 
     private void SetupWindowListener() {
+
+        // If someone tries to exit gmon once, just minimize it. If they try again, quit.
+        //
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 if (getExtendedState() == Frame.ICONIFIED) {
@@ -136,6 +140,8 @@ public class Main extends JFrame {
             } catch (IOException e) { throw new RuntimeException(e); }
 
             try {
+                // Want it to update every second. If that needs to be slower, simply increase this.
+                //
                 Thread.sleep(1000);
             } catch (InterruptedException e) { e.printStackTrace();}
         }

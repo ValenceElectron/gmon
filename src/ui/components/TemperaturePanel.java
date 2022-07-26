@@ -28,17 +28,32 @@ import java.time.format.DateTimeFormatter;
 public class TemperaturePanel extends JPanel implements IUpdatablePanel {
     private final Statistics stats;
     private JLabel currentTemp;
-    private JLabel additionalTempStat;
-    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private JLabel tempText;
 
     private int peakTemp = 0;
     private int avgTemp = 0;
+    private final Color bgColor;
+    private final Color fgColor;
+
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public TemperaturePanel(Statistics stats, Color bgColor, Color fgColor) {
-        this.stats = stats;
+        this.stats = stats; this.bgColor = bgColor; this.fgColor = fgColor;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(bgColor);
+        setForeground(fgColor);
 
-        JLabel tempText = new JLabel("Temperature:");
+        init();
+
+        add(tempText);
+        add(Box.createRigidArea(new Dimension(0,10)));
+        add(currentTemp);
+    }
+
+    // Function overloading required because this class implements IUpdatablePanel.
+    //
+    public void init() {
+        tempText = new JLabel("Temperature:");
         currentTemp = new JLabel("0");
 
         tempText.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -49,10 +64,6 @@ public class TemperaturePanel extends JPanel implements IUpdatablePanel {
         currentTemp.setBackground(bgColor);
 
         currentTemp.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
-
-        add(tempText);
-        add(Box.createRigidArea(new Dimension(0,10)));
-        add(currentTemp);
     }
 
     @Override
@@ -65,7 +76,8 @@ public class TemperaturePanel extends JPanel implements IUpdatablePanel {
         peak();
         avg();
         currentTemp.setText(stats.GetCurrentTemp() + "C");
-        currentTemp.setToolTipText("Peak: " + peakTemp + "C, Peaked at: " + peak.format(timeFormatter) + ", Average: " + avgTemp + "C");
+        currentTemp.setToolTipText("Peak: " + peakTemp + "C, Peaked at: " + peak.format(timeFormatter) +
+                ", Average: " + avgTemp + "C");
     }
 
     @Override

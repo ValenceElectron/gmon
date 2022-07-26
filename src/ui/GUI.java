@@ -53,16 +53,8 @@ public class GUI extends JPanel {
         fSpeeds = new FanSpeedPanel(stats, bgColor, fgColor);
         times = new TimePanel(stats, bgColor, fgColor);
 
-        temps.setBackground(bgColor);
-        temps.setForeground(fgColor);
         add(temps);
-
-        fSpeeds.setBackground(bgColor);
-        fSpeeds.setForeground(fgColor);
         add(fSpeeds);
-
-        times.setBackground(bgColor);
-        times.setForeground(fgColor);
         add(times);
     }
 

@@ -29,19 +29,30 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
     private final Statistics stats;
 
     private JLabel currentFSpeed;
-    private JLabel additionalFSpeedStat;
+    private JLabel tempText;
 
-    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
+    private final Color bgColor;
+    private final Color fgColor;
     private int peakFSpeed;
     private int avgFSpeed;
 
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
     public FanSpeedPanel(Statistics stats, Color bgColor, Color fgColor) {
-        this.stats = stats;
-
+        this.stats = stats; this.bgColor = bgColor; this.fgColor = fgColor;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(bgColor);
+        setForeground(fgColor);
 
-        JLabel tempText = new JLabel("Fan Speed:");
+        init();
+
+        add(tempText);
+        add(Box.createRigidArea(new Dimension(0,10)));
+        add(currentFSpeed);
+    }
+
+    private void init() {
+        tempText = new JLabel("Fan Speed:");
         currentFSpeed = new JLabel("0");
 
         tempText.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -52,10 +63,6 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
         currentFSpeed.setBackground(bgColor);
 
         currentFSpeed.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
-
-        add(tempText);
-        add(Box.createRigidArea(new Dimension(0,10)));
-        add(currentFSpeed);
     }
 
     @Override
@@ -63,12 +70,15 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
 
     }
 
+    // Function overloading required because this class implements IUpdatablePanel.
+    //
     @Override
     public void update(LocalTime peak) {
         peak();
         avg();
         currentFSpeed.setText(stats.GetCurrentFSpeed() + "%");
-        currentFSpeed.setToolTipText("Peak: " + peakFSpeed + "%, Peaked at: " + peak.format(timeFormatter) + ", Average: " + avgFSpeed + "%");
+        currentFSpeed.setToolTipText("Peak: " + peakFSpeed + "%, Peaked at: " + peak.format(timeFormatter) +
+                ", Average: " + avgFSpeed + "%");
     }
 
     @Override
