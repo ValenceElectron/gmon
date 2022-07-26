@@ -47,6 +47,11 @@ public class GUI extends JPanel {
         InitTrackingPanels();
     }
 
+
+    //------------------------------------------------------------------------------------------------------------------
+    // init methods.
+
+
     private void InitTrackingPanels() {
         System.out.println("Initializing monitoring panels.");
         temps = new TemperaturePanel(stats, bgColor, fgColor);
@@ -57,6 +62,11 @@ public class GUI extends JPanel {
         add(fSpeeds);
         add(times);
     }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
+
 
     public void update() throws IOException {
         times.update();

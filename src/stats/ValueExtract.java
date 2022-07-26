@@ -101,6 +101,11 @@ public class ValueExtract {
         stats.AddFSpeed(currentValue);
     }
 
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
+
+
     public void update() throws IOException {
         try { OpenFiles(); }
         catch (Exception e) { System.out.println("File could not be opened. Perhaps no log is generated?"); }

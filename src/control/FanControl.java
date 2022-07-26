@@ -50,6 +50,11 @@ public class FanControl {
         init();
     }
 
+
+    //------------------------------------------------------------------------------------------------------------------
+    // init methods.
+
+
     private void init() {
 
         // GPUFanControlState=0 means driver controlled fan curve, so no need to bother with calculating/doing the rest.
@@ -104,6 +109,10 @@ public class FanControl {
         }
     }
 
+
+    //------------------------------------------------------------------------------------------------------------------
+
+
     private void UpdateFanSpeed() {
         int index = DetermineCorrectFSpeed();
         execScripts.UpdateFanSpeed("1", Integer.toString(thresholds.get(index)[1]));
@@ -120,6 +129,11 @@ public class FanControl {
         // since that means they're greater than the max temperature handled by the fan curve.
         return thresholds.size() - 1;
     }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
+
 
     public void update() {
 

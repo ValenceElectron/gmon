@@ -44,11 +44,11 @@ public class TemperaturePanel extends JPanel implements IUpdatablePanel {
         setForeground(fgColor);
 
         init();
-
-        add(tempText);
-        add(Box.createRigidArea(new Dimension(0,10)));
-        add(currentTemp);
     }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // init methods.
 
     // Function overloading required because this class implements IUpdatablePanel.
     //
@@ -64,7 +64,27 @@ public class TemperaturePanel extends JPanel implements IUpdatablePanel {
         currentTemp.setBackground(bgColor);
 
         currentTemp.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
+
+        add(tempText);
+        add(Box.createRigidArea(new Dimension(0,10)));
+        add(currentTemp);
     }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    @Override
+    public void peak() { peakTemp = stats.GetPeakTemp(); }
+
+    public void avg() {
+        avgTemp = stats.GetAverageTemps();
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
+
 
     @Override
     public void update() {
@@ -78,12 +98,5 @@ public class TemperaturePanel extends JPanel implements IUpdatablePanel {
         currentTemp.setText(stats.GetCurrentTemp() + "C");
         currentTemp.setToolTipText("Peak: " + peakTemp + "C, Peaked at: " + peak.format(timeFormatter) +
                 ", Average: " + avgTemp + "C");
-    }
-
-    @Override
-    public void peak() { peakTemp = stats.GetPeakTemp(); }
-
-    public void avg() {
-        avgTemp = stats.GetAverageTemps();
     }
 }

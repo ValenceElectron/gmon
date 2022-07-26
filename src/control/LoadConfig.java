@@ -43,6 +43,7 @@ public class LoadConfig {
     // TODO: Make a cap for amount of points on fan curve. Ideally, 8-10 max, then disregard any lines in gmon.conf after.
     // TODO: Validate that each line starts with GPUFanP[number], and that they're in order.
     // TODO: Validate that each value pulled from lines with GPUFanP[number] are indeed numbers.
+    // v2.0.0 TODO: Clean up this class, it's a bit messy and sucky to read.
     private void configExists() throws IOException {
         String workingString;
 

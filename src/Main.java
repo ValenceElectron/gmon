@@ -64,7 +64,10 @@ public class Main extends JFrame {
         update();
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------------------------------------------------
+    // init methods.
+
 
     private void init() {
         setLayout(new BorderLayout());
@@ -123,12 +126,23 @@ public class Main extends JFrame {
         });
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------------------------------------------------
+
 
     private void ExecScript() {
         execScripts.LogTemp();
         execScripts.LogFSpeed();
     }
+
+    public void quit() {
+        execScripts.quit();
+        System.exit(0);
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
 
     public void update() {
         while (true) {
@@ -145,11 +159,6 @@ public class Main extends JFrame {
                 Thread.sleep(1000);
             } catch (InterruptedException e) { e.printStackTrace();}
         }
-    }
-
-    public void quit() {
-        execScripts.quit();
-        System.exit(0);
     }
 
     public void paint(Graphics g) {

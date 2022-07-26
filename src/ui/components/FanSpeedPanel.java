@@ -45,11 +45,11 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
         setForeground(fgColor);
 
         init();
-
-        add(tempText);
-        add(Box.createRigidArea(new Dimension(0,10)));
-        add(currentFSpeed);
     }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // init methods.
 
     private void init() {
         tempText = new JLabel("Fan Speed:");
@@ -63,7 +63,28 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
         currentFSpeed.setBackground(bgColor);
 
         currentFSpeed.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
+
+        add(tempText);
+        add(Box.createRigidArea(new Dimension(0,10)));
+        add(currentFSpeed);
     }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    @Override
+    public void peak() {
+        peakFSpeed = stats.GetPeakFSpeed();
+    }
+
+    public void avg() {
+        avgFSpeed = stats.GetAverageFSpeeds();
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
 
     @Override
     public void update() {
@@ -79,14 +100,5 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
         currentFSpeed.setText(stats.GetCurrentFSpeed() + "%");
         currentFSpeed.setToolTipText("Peak: " + peakFSpeed + "%, Peaked at: " + peak.format(timeFormatter) +
                 ", Average: " + avgFSpeed + "%");
-    }
-
-    @Override
-    public void peak() {
-        peakFSpeed = stats.GetPeakFSpeed();
-    }
-
-    public void avg() {
-        avgFSpeed = stats.GetAverageFSpeeds();
     }
 }

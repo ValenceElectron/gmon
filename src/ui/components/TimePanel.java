@@ -49,11 +49,12 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
         setForeground(fgColor);
 
         init();
-
-        add(elapsedTimeText);
-        add(Box.createRigidArea(new Dimension(0,10)));
-        add(elapsedTimeLabel);
     }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // init methods.
+
 
     public void init() {
         startTime = System.currentTimeMillis();
@@ -69,22 +70,15 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
         elapsedTimeLabel.setBackground(bgColor);
 
         elapsedTimeLabel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
+
+        add(elapsedTimeText);
+        add(Box.createRigidArea(new Dimension(0,10)));
+        add(elapsedTimeLabel);
     }
 
-    // Function overloading required because this class implements IUpdatablePanel.
-    //
-    @Override
-    public void update() {
-        peak();
-        HowMuchTimeElapsed();
-        times.add(LocalTime.now());
-        elapsedTimeLabel.setText(elapsedTime);
-    }
 
-    @Override
-    public void update(LocalTime peak) {
+    //------------------------------------------------------------------------------------------------------------------
 
-    }
 
     public LocalTime GetPeakTime() { return times.get(peakIndex); }
 
@@ -100,5 +94,25 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
         elapsedTime = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(timeInMill),
                 TimeUnit.MILLISECONDS.toMinutes(timeInMill) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeInMill)),
                 TimeUnit.MILLISECONDS.toSeconds(timeInMill) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeInMill)));
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
+
+
+    // Function overloading required because this class implements IUpdatablePanel.
+    //
+    @Override
+    public void update() {
+        peak();
+        HowMuchTimeElapsed();
+        times.add(LocalTime.now());
+        elapsedTimeLabel.setText(elapsedTime);
+    }
+
+    @Override
+    public void update(LocalTime peak) {
+
     }
 }
