@@ -100,6 +100,10 @@ To use gmon, simply run the 'gmon' command in a terminal, or search your Applica
 load up a preconfigured fan curve for you automatically, and you'll see a screen tracking your temperatures,
 fan speed, and time elapsed since gmon was started.
 
+To see the values like the running average temperature, or what speed the fans peaked at, simply hover over
+the respective currently tracked stat value. (i.e. if you want to see average temperature, hover over the current
+temperature). Those values show up in the tooltip.
+
 As of v1.1.0, the only way to configure the fan curve is to navigate to ~/.local/bin/gmon_parser, and
 edit gmon.conf. Simply open it with any text editor, and you should see a few variables and their values.
 Double check and make sure that GPUFanControlState is equal to 1 (a 0 would load your GPU's default fan
