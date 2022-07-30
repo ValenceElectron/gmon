@@ -32,16 +32,16 @@ public class TemperaturePanel extends JPanel implements IUpdatablePanel {
 
     private int peakTemp = 0;
     private int avgTemp = 0;
-    private final Color bgColor;
-    private final Color fgColor;
+
+    private final Color[] colors = new Color[4];
 
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    public TemperaturePanel(Statistics stats, Color bgColor, Color fgColor) {
-        this.stats = stats; this.bgColor = bgColor; this.fgColor = fgColor;
+    public TemperaturePanel(Statistics stats, Color[] colors) {
+        this.stats = stats; this.colors[0] = colors[0]; this.colors[1] = colors[1]; this.colors[2] = colors[2]; this.colors[3] = colors[3];
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBackground(bgColor);
-        setForeground(fgColor);
+        setBackground(this.colors[0]);
+        setForeground(this.colors[1]);
 
         init();
     }
@@ -59,9 +59,9 @@ public class TemperaturePanel extends JPanel implements IUpdatablePanel {
         tempText.setAlignmentX(Component.CENTER_ALIGNMENT);
         currentTemp.setAlignmentX((Component.CENTER_ALIGNMENT));
 
-        tempText.setForeground(fgColor);
-        currentTemp.setForeground(fgColor);
-        currentTemp.setBackground(bgColor);
+        tempText.setForeground(this.colors[1]);
+        currentTemp.setForeground(this.colors[1]);
+        currentTemp.setBackground(this.colors[0]);
 
         currentTemp.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
 

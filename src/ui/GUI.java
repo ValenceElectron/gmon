@@ -31,18 +31,16 @@ public class GUI extends JPanel {
     private TemperaturePanel temps;
     private FanSpeedPanel fSpeeds;
     private TimePanel times;
-    private final Color bgColor;
-    private final Color fgColor;
+
+    private final Color[] colors = new Color[4];
 
     // TODO: Menu bar with options to create a custom fan curve + JFrame and JPanels for it.
-    // TODO: Decouple any of the data processing from the xPanel classes so that it can run independent of the GUI.
     // TODO: Add more colors set in main (maybe an array?) to be able to pass to the xPanels. Especially red for critical temps.
     //
-    public GUI(Statistics stats, Color bgColor, Color fgColor) {
+    public GUI(Statistics stats, Color[] colors) {
         setLayout(new GridLayout(3,1));
         this.stats = stats;
-        this.bgColor = bgColor;
-        this.fgColor = fgColor;
+        this.colors[0] = colors[0]; this.colors[1] = colors[1]; this.colors[2] = colors[2]; this.colors[3] = colors[3];
 
         InitTrackingPanels();
     }
@@ -54,9 +52,9 @@ public class GUI extends JPanel {
 
     private void InitTrackingPanels() {
         System.out.println("Initializing monitoring panels.");
-        temps = new TemperaturePanel(stats, bgColor, fgColor);
-        fSpeeds = new FanSpeedPanel(stats, bgColor, fgColor);
-        times = new TimePanel(stats, bgColor, fgColor);
+        temps = new TemperaturePanel(stats, colors);
+        fSpeeds = new FanSpeedPanel(stats, colors);
+        times = new TimePanel(stats, colors);
 
         add(temps);
         add(fSpeeds);

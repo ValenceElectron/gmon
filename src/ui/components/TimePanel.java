@@ -39,14 +39,14 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
 
     private int peakIndex = 0;
     private String elapsedTime;
-    private final Color bgColor;
-    private final Color fgColor;
 
-    public TimePanel(Statistics stats, Color bgColor, Color fgColor) {
-        this.stats = stats; this.bgColor = bgColor; this.fgColor = fgColor;
+    private final Color[] colors = new Color[4];
+
+    public TimePanel(Statistics stats, Color[] colors) {
+        this.stats = stats; this.colors[0] = colors[0]; this.colors[1] = colors[1]; this.colors[2] = colors[2]; this.colors[3] = colors[3];
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBackground(bgColor);
-        setForeground(fgColor);
+        setBackground(this.colors[0]);
+        setForeground(this.colors[1]);
 
         init();
     }
@@ -64,10 +64,10 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
         elapsedTimeText.setAlignmentX(Component.CENTER_ALIGNMENT);
         elapsedTimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        elapsedTimeText.setForeground(fgColor);
-        elapsedTimeText.setBackground(bgColor);
-        elapsedTimeLabel.setForeground(fgColor);
-        elapsedTimeLabel.setBackground(bgColor);
+        elapsedTimeText.setForeground(colors[1]);
+        elapsedTimeText.setBackground(colors[0]);
+        elapsedTimeLabel.setForeground(colors[1]);
+        elapsedTimeLabel.setBackground(colors[0]);
 
         elapsedTimeLabel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
 

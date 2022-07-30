@@ -43,17 +43,20 @@ public class Main extends JFrame {
 
     private Image icon;
 
-    private final Color bgColor = Color.DARK_GRAY;
-    private final Color fgColor = Color.LIGHT_GRAY;
+    private final Color[] colors = new Color[4];
 
     public Main(String title) {
         this.setTitle(title);
+
+        // colors[0] is background, [1] is foreground, [2] is critical, and [3] is approaching critical
+        //
+        colors[0] = Color.DARK_GRAY; colors[1] = Color.LIGHT_GRAY; colors[2] = Color.RED; colors[3] = Color.YELLOW;
 
         stats = new Statistics();
         ve = new ValueExtract(stats);
         execScripts = new ExecScripts();
         fCon = new FanControl(stats, execScripts);
-        gui = new GUI(stats, bgColor, fgColor);
+        gui = new GUI(stats, colors);
         systemTray = SystemTray.getSystemTray();
 
         icon = Toolkit.getDefaultToolkit().getImage("/home/" + userName + "/.local/bin/gmon_parser/gmon_logo.png");
@@ -75,8 +78,8 @@ public class Main extends JFrame {
         //
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(200,300);
-        setBackground(bgColor);
-        gui.setBackground(bgColor);
+        setBackground(colors[0]);
+        gui.setBackground(colors[0]);
 
         this.setIconImage(icon);
 

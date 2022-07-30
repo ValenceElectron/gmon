@@ -31,18 +31,18 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
     private JLabel currentFSpeed;
     private JLabel tempText;
 
-    private final Color bgColor;
-    private final Color fgColor;
+    private final Color[] colors = new Color[4];
+
     private int peakFSpeed;
     private int avgFSpeed;
 
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    public FanSpeedPanel(Statistics stats, Color bgColor, Color fgColor) {
-        this.stats = stats; this.bgColor = bgColor; this.fgColor = fgColor;
+    public FanSpeedPanel(Statistics stats, Color[] colors) {
+        this.stats = stats; this.colors[0] = colors[0]; this.colors[1] = colors[1]; this.colors[2] = colors[2]; this.colors[3] = colors[3];
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBackground(bgColor);
-        setForeground(fgColor);
+        setBackground(this.colors[0]);
+        setForeground(this.colors[1]);
 
         init();
     }
@@ -58,9 +58,9 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
         tempText.setAlignmentX(Component.CENTER_ALIGNMENT);
         currentFSpeed.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        tempText.setForeground(fgColor);
-        currentFSpeed.setForeground(fgColor);
-        currentFSpeed.setBackground(bgColor);
+        tempText.setForeground(colors[1]);
+        currentFSpeed.setForeground(colors[1]);
+        currentFSpeed.setBackground(colors[0]);
 
         currentFSpeed.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
 
