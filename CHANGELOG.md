@@ -2,6 +2,15 @@
 ___
 Notable changes to the project will be documented in this file.
 
+# [v1.2.0-Unreleased]
+___
+
+Small updates to functionality of the app.
+
+### Known Issues
+
+- On GNOME desktops, Xorg must be run as root for Coolbits and overclocking/fan control to work. This can be a security risk due to escalating privileges, but there is no current workaround. [Link](https://github.com/NVIDIA/nvidia-settings/issues/65#issuecomment-832921061) to Nvidia github where the solution is discussed.
+
 # [v1.1.0] - 2022-07-26
 ___
 Small updates to the look and licensing of the app.

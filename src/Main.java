@@ -27,10 +27,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeListener;
 import java.io.*;
-
-// TODO: Refactor Main into a singleton.
-// TODO: Add another option on TrayIcon to unhide gmon.
 
 // V2.0.0 TODO: Get whether user is using light or dark mode, apply colors based on that.
 public class Main extends JFrame {
@@ -75,12 +73,10 @@ public class Main extends JFrame {
         // DefaultCloseOperation set to DO_NOTHING currently. An option for the tray icon to open gmon needs to be added,
         // then it will be est to HIDE_ON_CLOSE, and that option would unhide it.
         //
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(200,300);
         setBackground(bgColor);
         gui.setBackground(bgColor);
-
-        SetupWindowListener();
 
         this.setIconImage(icon);
 
@@ -93,12 +89,23 @@ public class Main extends JFrame {
     private void InitSystemTray() {
         PopupMenu trayPopupMenu = new PopupMenu();
         MenuItem menuQuit = new MenuItem("Quit");
+        MenuItem menuShow = new MenuItem("Show gmon");
+
+        menuShow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Unhide();
+            }
+        });
+
         menuQuit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 quit();
             }
         });
+
+        trayPopupMenu.add(menuShow);
         trayPopupMenu.add(menuQuit);
         TrayIcon gmonIcon = new TrayIcon(icon, "gmon", trayPopupMenu);
         gmonIcon.setImageAutoSize(true);
@@ -112,20 +119,6 @@ public class Main extends JFrame {
         }
     }
 
-    private void SetupWindowListener() {
-
-        // If someone tries to exit gmon once, just minimize it. If they try again, quit.
-        //
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                if (getExtendedState() == Frame.ICONIFIED) {
-                    quit();
-                }
-                setExtendedState(Frame.ICONIFIED);
-            }
-        });
-    }
-
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -133,6 +126,10 @@ public class Main extends JFrame {
     private void ExecScript() {
         execScripts.LogTemp();
         execScripts.LogFSpeed();
+    }
+
+    public void Unhide() {
+        setVisible(true);
     }
 
     public void quit() {
