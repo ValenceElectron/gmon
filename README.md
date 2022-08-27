@@ -6,6 +6,8 @@ Copyright (c) ValenceElectron
 
 This file is part of the gmon_parser project.
 
+This project has not been tested on environments outside of my own desktop yet.
+
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at https://mozilla.org/MPL/2.0/.
@@ -40,6 +42,8 @@ ___
 - openjdk-17
 - Nvidia driver version 515 (this may work on older drivers, I haven't tested them).
 - Must be using X11
+
+### Tips for new Linux users:
 
 For new Linux users, here's how to deal with dependencies: as a general rule of thumb, you can
 track down the dependencies based on the name given to you in sections such as this. Usually what
