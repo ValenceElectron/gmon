@@ -118,11 +118,4 @@ the second number is the percentage of max fan speed.
 ___
 
 This is my first real project, and I had to learn how most thing work on my own. If you have any issues,
-you can open an issue on the Github page, but if you wanted a quicker way to contact me about a potentially big
-and/or breaking issue, sending a tweet or email my way will usually get to me faster. Ideally, both open a Github issue
-and tweet at me, that way I get notified quick and it's tracked on Github. If you need places to find me check them out
-below. Do note, I'm not in a habit of checking my email frequently, but I will setup push notifications on my phone for it.
-
-- [Github](https://github.com/ValenceElectron)
-- [Twitter](https://twitter.com/TheLastElectron)
-- TheLastElectronSPDF@gmail.com
+you can open an issue on the Github page.
