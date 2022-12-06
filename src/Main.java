@@ -23,29 +23,20 @@ import stats.ValueExtract;
 import ui.GUI;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeListener;
 import java.io.*;
 
 // V2.0.0 TODO: Get whether user is using light or dark mode, apply colors based on that.
 public class Main extends JFrame {
     private final GUI gui;
     private final ValueExtract ve;
-    private final Statistics stats;
+    //private final Statistics stats;
     private final ExecScripts execScripts;
     private final FanControl fCon;
-
-    private final String userName = System.getProperty("user.name");
-    private final SystemTray systemTray;
-
-    private Image icon;
 
     private final Color[] colors = new Color[4];
 
     public Main(String title) {
+        Statistics stats;
         this.setTitle(title);
 
         // colors[0] is background, [1] is foreground, [2] is critical, and [3] is approaching critical
@@ -57,9 +48,6 @@ public class Main extends JFrame {
         execScripts = new ExecScripts();
         fCon = new FanControl(stats, execScripts);
         gui = new GUI(stats, colors);
-        systemTray = SystemTray.getSystemTray();
-
-        icon = Toolkit.getDefaultToolkit().getImage("/home/" + userName + "/.local/bin/gmon_parser/gmon_logo.png");
 
         init();
         update();
@@ -73,55 +61,16 @@ public class Main extends JFrame {
     private void init() {
         setLayout(new BorderLayout());
 
-        // DefaultCloseOperation set to DO_NOTHING currently. An option for the tray icon to open gmon needs to be added,
-        // then it will be est to HIDE_ON_CLOSE, and that option would unhide it.
+        // EXIT_ON_CLOSE uses System.exit and quits the program
         //
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(200,300);
         setBackground(colors[0]);
         gui.setBackground(colors[0]);
 
-        this.setIconImage(icon);
-
-        InitSystemTray();
-
         getContentPane().add(gui);
         this.setVisible(true);
     }
-
-    private void InitSystemTray() {
-        PopupMenu trayPopupMenu = new PopupMenu();
-        MenuItem menuQuit = new MenuItem("Quit");
-        MenuItem menuShow = new MenuItem("Show gmon");
-
-        menuShow.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Unhide();
-            }
-        });
-
-        menuQuit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                quit();
-            }
-        });
-
-        trayPopupMenu.add(menuShow);
-        trayPopupMenu.add(menuQuit);
-        TrayIcon gmonIcon = new TrayIcon(icon, "gmon", trayPopupMenu);
-        gmonIcon.setImageAutoSize(true);
-
-        try {
-            systemTray.add(gmonIcon);
-            gmonIcon.setImage(icon);
-
-        } catch (AWTException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -129,15 +78,6 @@ public class Main extends JFrame {
     private void ExecScript() {
         execScripts.LogTemp();
         execScripts.LogFSpeed();
-    }
-
-    public void Unhide() {
-        setVisible(true);
-    }
-
-    public void quit() {
-        execScripts.quit();
-        System.exit(0);
     }
 
 
