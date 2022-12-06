@@ -24,7 +24,10 @@ public class ExecScripts {
     final private String workingDir = "/home/" + userName + "/.local/bin/gmon_parser";
     final private String tempMon = workingDir+"/src/scripts/LogTemp";
     final private String fSpeedMon = workingDir+"/src/scripts/LogFanSpeed";
+    final private String fanCon = workingDir+"/src/scripts/fanCon";
 
+    // All the methods in this class run Bash scripts that help log values to track, or control fan speeds.
+    //
     public ExecScripts() {
 
     }
@@ -46,6 +49,34 @@ public class ExecScripts {
         Process p;
         try{
             String[] cmd = {"sh", fSpeedMon};
+            p = Runtime.getRuntime().exec(cmd);
+            p.waitFor();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void UpdateFanSpeed(String GPUFanControlState, String GPUFanTargetSpeed) {
+        Process p;
+        try{
+            String[] cmd = {"sh", fanCon, GPUFanControlState, GPUFanTargetSpeed};
+            p = Runtime.getRuntime().exec(cmd);
+            p.waitFor();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void quit() {
+        // When quit, we want gmon to allow the driver controlled fan curve to take over again.
+        //
+        Process p;
+        try{
+            String[] cmd = {"sh", fanCon, "1", "38"};
             p = Runtime.getRuntime().exec(cmd);
             p.waitFor();
         } catch (IOException e) {

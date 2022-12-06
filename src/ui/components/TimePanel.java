@@ -40,9 +40,23 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
     private int peakIndex = 0;
     private String elapsedTime;
 
-    public TimePanel(Statistics stats, Color bgColor, Color fgColor) {
-        this.stats = stats;
+    private final Color[] colors = new Color[4];
+
+    public TimePanel(Statistics stats, Color[] colors) {
+        this.stats = stats; this.colors[0] = colors[0]; this.colors[1] = colors[1]; this.colors[2] = colors[2]; this.colors[3] = colors[3];
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(this.colors[0]);
+        setForeground(this.colors[1]);
+
+        init();
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // init methods.
+
+
+    public void init() {
         startTime = System.currentTimeMillis();
 
         elapsedTimeText = new JLabel("Time Elapsed:");
@@ -50,10 +64,10 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
         elapsedTimeText.setAlignmentX(Component.CENTER_ALIGNMENT);
         elapsedTimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        elapsedTimeText.setForeground(fgColor);
-        elapsedTimeText.setBackground(bgColor);
-        elapsedTimeLabel.setForeground(fgColor);
-        elapsedTimeLabel.setBackground(bgColor);
+        elapsedTimeText.setForeground(colors[1]);
+        elapsedTimeText.setBackground(colors[0]);
+        elapsedTimeLabel.setForeground(colors[1]);
+        elapsedTimeLabel.setBackground(colors[0]);
 
         elapsedTimeLabel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
 
@@ -62,20 +76,9 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
         add(elapsedTimeLabel);
     }
 
-    @Override
-    public void update() {
-        peak();
-        HowMuchTimeElapsed();
-        times.add(LocalTime.now());
-        elapsedTimeLabel.setText(elapsedTime);
-    }
 
-    // Currently unused. Byproduct of implementing IUpdatablePanel
-    //
-    @Override
-    public void update(LocalTime peak) {
+    //------------------------------------------------------------------------------------------------------------------
 
-    }
 
     public LocalTime GetPeakTime() { return times.get(peakIndex); }
 
@@ -91,5 +94,25 @@ public class TimePanel extends JPanel implements IUpdatablePanel {
         elapsedTime = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(timeInMill),
                 TimeUnit.MILLISECONDS.toMinutes(timeInMill) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeInMill)),
                 TimeUnit.MILLISECONDS.toSeconds(timeInMill) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeInMill)));
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
+
+
+    // Function overloading required because this class implements IUpdatablePanel.
+    //
+    @Override
+    public void update() {
+        peak();
+        HowMuchTimeElapsed();
+        times.add(LocalTime.now());
+        elapsedTimeLabel.setText(elapsedTime);
+    }
+
+    @Override
+    public void update(LocalTime peak) {
+
     }
 }

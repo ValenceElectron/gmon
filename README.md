@@ -69,7 +69,7 @@ When it comes to Java 17, here are the package names from some of the bigger dis
   searching for it in your Applications menu, and run the command 'sudo pacman -S jre17-openjdk'.
 
 Installing the proprietary Nvidia drivers is a bit more of a spicy topic. Lots of different ways to do it,
-it comes pre-installed with some distros, others require settings being toggle to be able to get them. I
+it comes pre-installed with some distros, others require settings being toggled to be able to get them. I
 recommend doing a cursory search for how to install them on your distro and then coming back.
 
 If you're not sure whether you have them or not, go ahead open a terminal, and run the command 'nvidia-smi'.
@@ -81,6 +81,12 @@ the Linux scene. If you're on Wayland, or you're not sure what you're using, sim
 desktop and before logging back in, look for a settings icon on the login screen. Click it, and choose the
 option that says 'GNOME (on X11)' or something to that effect. Once done, you're all set.
 
+# IMPORTANT:
+___
+
+I do not currently know how to make distro specific packages. If the install script fails, gmon can be run
+from the extracted tar ball by simply moving gmon.conf and gmon_parser.jar from the 'resources' directory into the parent
+directory. Afterwards, `java -jar gmon_parser.jar` will run the program.
 
 # Installing:
 ___
@@ -103,6 +109,10 @@ ___
 To use gmon, simply run the 'gmon' command in a terminal, or search your Applications for 'gmon'. It will
 load up a preconfigured fan curve for you automatically, and you'll see a screen tracking your temperatures,
 fan speed, and time elapsed since gmon was started.
+
+To see the values like the running average temperature, or what speed the fans peaked at, simply hover over
+the respective currently tracked stat value. (i.e. if you want to see average temperature, hover over the current
+temperature). Those values show up in the tooltip.
 
 As of v1.1.0, the only way to configure the fan curve is to navigate to ~/.local/bin/gmon_parser, and
 edit gmon.conf. Simply open it with any text editor, and you should see a few variables and their values.

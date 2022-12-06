@@ -46,6 +46,10 @@ public class ValueExtract {
     }
 
     private void OpenTemps() throws FileNotFoundException {
+
+        // In the off chance OpenTemps() gets called twice at the same time. Don't want to run into
+        // any problems with multiple things trying to read from the same file.
+        //
         if (isTempOpen)
             return;
 
@@ -54,6 +58,10 @@ public class ValueExtract {
     }
 
     private void OpenFSpeeds() throws FileNotFoundException {
+
+        // In the off chance OpenFSpeeds() gets called twice at the same time. Don't want to run into
+        // any problems with multiple things trying to read from the same file.
+        //
         if (isFSpeedOpen)
             return;
 
@@ -92,6 +100,11 @@ public class ValueExtract {
         int currentValue = Integer.parseInt(fSpeedLine.substring(0, fSpeedLine.length()-2));
         stats.AddFSpeed(currentValue);
     }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
+
 
     public void update() throws IOException {
         try { OpenFiles(); }

@@ -27,9 +27,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeListener;
 import java.io.*;
-
-// TODO: Refactor Main into a singleton.
 
 // V2.0.0 TODO: Get whether user is using light or dark mode, apply colors based on that.
 public class Main extends JFrame {
@@ -44,17 +43,20 @@ public class Main extends JFrame {
 
     private Image icon;
 
-    private final Color bgColor = Color.DARK_GRAY;
-    private final Color fgColor = Color.LIGHT_GRAY;
+    private final Color[] colors = new Color[4];
 
     public Main(String title) {
         this.setTitle(title);
 
+        // colors[0] is background, [1] is foreground, [2] is critical, and [3] is approaching critical
+        //
+        colors[0] = Color.DARK_GRAY; colors[1] = Color.LIGHT_GRAY; colors[2] = Color.RED; colors[3] = Color.YELLOW;
+
         stats = new Statistics();
         ve = new ValueExtract(stats);
         execScripts = new ExecScripts();
-        fCon = new FanControl(stats);
-        gui = new GUI(stats, bgColor, fgColor);
+        fCon = new FanControl(stats, execScripts);
+        gui = new GUI(stats, colors);
         systemTray = SystemTray.getSystemTray();
 
         icon = Toolkit.getDefaultToolkit().getImage("/home/" + userName + "/.local/bin/gmon_parser/gmon_logo.png");
@@ -63,68 +65,84 @@ public class Main extends JFrame {
         update();
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------------------------------------------------
+    // init methods.
+
 
     private void init() {
         setLayout(new BorderLayout());
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setSize(200,300);
-        setBackground(bgColor);
-        gui.setBackground(bgColor);
 
-        SetupWindowListener();
+        // DefaultCloseOperation set to DO_NOTHING currently. An option for the tray icon to open gmon needs to be added,
+        // then it will be est to HIDE_ON_CLOSE, and that option would unhide it.
+        //
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setSize(200,300);
+        setBackground(colors[0]);
+        gui.setBackground(colors[0]);
 
         this.setIconImage(icon);
-        //System.out.println("Set application icon");
 
         InitSystemTray();
 
         getContentPane().add(gui);
-
         this.setVisible(true);
     }
 
     private void InitSystemTray() {
-        //System.out.println("Initializing tray icon.");
-        //System.out.println(systemTray.isSupported());
         PopupMenu trayPopupMenu = new PopupMenu();
         MenuItem menuQuit = new MenuItem("Quit");
+        MenuItem menuShow = new MenuItem("Show gmon");
+
+        menuShow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Unhide();
+            }
+        });
+
         menuQuit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 quit();
             }
         });
+
+        trayPopupMenu.add(menuShow);
         trayPopupMenu.add(menuQuit);
-        TrayIcon trayIcon = new TrayIcon(icon, "gmon", trayPopupMenu);
-        trayIcon.setImageAutoSize(true);
+        TrayIcon gmonIcon = new TrayIcon(icon, "gmon", trayPopupMenu);
+        gmonIcon.setImageAutoSize(true);
 
         try {
-            systemTray.add(trayIcon);
-            trayIcon.setImage(icon);
+            systemTray.add(gmonIcon);
+            gmonIcon.setImage(icon);
 
         } catch (AWTException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void SetupWindowListener() {
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                if (getExtendedState() == Frame.ICONIFIED) {
-                    quit();
-                }
-                setExtendedState(Frame.ICONIFIED);
-            }
-        });
-    }
 
-    //-----------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
+
 
     private void ExecScript() {
         execScripts.LogTemp();
         execScripts.LogFSpeed();
     }
+
+    public void Unhide() {
+        setVisible(true);
+    }
+
+    public void quit() {
+        execScripts.quit();
+        System.exit(0);
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
 
     public void update() {
         while (true) {
@@ -136,14 +154,11 @@ public class Main extends JFrame {
             } catch (IOException e) { throw new RuntimeException(e); }
 
             try {
+                // Want it to update every second. If that needs to be slower, simply increase this.
+                //
                 Thread.sleep(1000);
             } catch (InterruptedException e) { e.printStackTrace();}
         }
-    }
-
-    public void quit() {
-        fCon.quit();
-        System.exit(0);
     }
 
     public void paint(Graphics g) {

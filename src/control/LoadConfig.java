@@ -24,6 +24,8 @@ public class LoadConfig {
     final private String workingDir = "/home/" + userName + "/.local/bin/gmon_parser/";
     final private File config = new File(workingDir, "gmon.conf");
 
+    // GPUFanControlState is a value passed to nvidia-settings. 0 is driver controlled fan curve, 1 is user defined.
+    //
     private String gpuFanControlState;
     private ArrayList<String> thresholds;
     private ArrayList<Integer> tempThresh;
@@ -41,6 +43,7 @@ public class LoadConfig {
     // TODO: Make a cap for amount of points on fan curve. Ideally, 8-10 max, then disregard any lines in gmon.conf after.
     // TODO: Validate that each line starts with GPUFanP[number], and that they're in order.
     // TODO: Validate that each value pulled from lines with GPUFanP[number] are indeed numbers.
+    // v2.0.0 TODO: Clean up this class, it's a bit messy and sucky to read.
     private void configExists() throws IOException {
         String workingString;
 
@@ -66,6 +69,8 @@ public class LoadConfig {
         workingString = "";
         boolean endOfFile = false;
 
+        // Need to validate these strings.
+        //
         while (!endOfFile) {
             workingString = cfgText.readLine();
             if (workingString == null) endOfFile = true;
@@ -87,6 +92,9 @@ public class LoadConfig {
 
         tempThresh = new ArrayList<>(); fSpeedThresh = new ArrayList<>();
 
+        // This takes the lines from gmon.conf, splits the name from the values, and only saves the values.
+        // It needs to be reworked to validate both the name and the values.
+        //
         for (int i = 0; i < thresholds.size(); i++) {
             String[] strArr = thresholds.get(i).split(",", 3);
             //System.out.println(strArr[1] + "," + strArr[2]);

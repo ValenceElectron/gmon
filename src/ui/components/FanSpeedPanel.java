@@ -29,27 +29,38 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
     private final Statistics stats;
 
     private JLabel currentFSpeed;
-    private JLabel additionalFSpeedStat;
+    private JLabel tempText;
 
-    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private final Color[] colors = new Color[4];
 
     private int peakFSpeed;
     private int avgFSpeed;
 
-    public FanSpeedPanel(Statistics stats, Color bgColor, Color fgColor) {
-        this.stats = stats;
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
+    public FanSpeedPanel(Statistics stats, Color[] colors) {
+        this.stats = stats; this.colors[0] = colors[0]; this.colors[1] = colors[1]; this.colors[2] = colors[2]; this.colors[3] = colors[3];
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(this.colors[0]);
+        setForeground(this.colors[1]);
 
-        JLabel tempText = new JLabel("Fan Speed:");
+        init();
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // init methods.
+
+    private void init() {
+        tempText = new JLabel("Fan Speed:");
         currentFSpeed = new JLabel("0");
 
         tempText.setAlignmentX(Component.CENTER_ALIGNMENT);
         currentFSpeed.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        tempText.setForeground(fgColor);
-        currentFSpeed.setForeground(fgColor);
-        currentFSpeed.setBackground(bgColor);
+        tempText.setForeground(colors[1]);
+        currentFSpeed.setForeground(colors[1]);
+        currentFSpeed.setBackground(colors[0]);
 
         currentFSpeed.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
 
@@ -58,18 +69,9 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
         add(currentFSpeed);
     }
 
-    @Override
-    public void update() {
 
-    }
+    //------------------------------------------------------------------------------------------------------------------
 
-    @Override
-    public void update(LocalTime peak) {
-        peak();
-        avg();
-        currentFSpeed.setText(stats.GetCurrentFSpeed() + "%");
-        currentFSpeed.setToolTipText("Peak: " + peakFSpeed + "%, Peaked at: " + peak.format(timeFormatter) + ", Average: " + avgFSpeed + "%");
-    }
 
     @Override
     public void peak() {
@@ -78,5 +80,25 @@ public class FanSpeedPanel extends JPanel implements IUpdatablePanel {
 
     public void avg() {
         avgFSpeed = stats.GetAverageFSpeeds();
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // update methods.
+
+    @Override
+    public void update() {
+
+    }
+
+    // Function overloading required because this class implements IUpdatablePanel.
+    //
+    @Override
+    public void update(LocalTime peak) {
+        peak();
+        avg();
+        currentFSpeed.setText(stats.GetCurrentFSpeed() + "%");
+        currentFSpeed.setToolTipText("Peak: " + peakFSpeed + "%, Peaked at: " + peak.format(timeFormatter) +
+                ", Average: " + avgFSpeed + "%");
     }
 }
