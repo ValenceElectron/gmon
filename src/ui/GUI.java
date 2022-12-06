@@ -36,6 +36,7 @@ public class GUI extends JPanel {
 
     // TODO: Menu bar with options to create a custom fan curve + JFrame and JPanels for it.
     // TODO: Add more colors set in main (maybe an array?) to be able to pass to the xPanels. Especially red for critical temps.
+    // TODO: Refactor components to be more object oriented.
     //
     public GUI(Statistics stats, Color[] colors) {
         setLayout(new GridLayout(3,1));
