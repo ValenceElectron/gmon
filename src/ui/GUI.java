@@ -17,10 +17,7 @@
 package ui;
 
 import stats.Statistics;
-import stats.ValueExtract;
-import ui.components.FanSpeedPanel;
-import ui.components.TemperaturePanel;
-import ui.components.TimePanel;
+import ui.components.Panel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,9 +25,9 @@ import java.io.IOException;
 
 public class GUI extends JPanel {
     private final Statistics stats;
-    private TemperaturePanel temps;
-    private FanSpeedPanel fSpeeds;
-    private TimePanel times;
+    private Panel temps;
+    private Panel fSpeeds;
+    private Panel times;
 
     private final Color[] colors = new Color[4];
 
@@ -53,9 +50,9 @@ public class GUI extends JPanel {
 
     private void InitTrackingPanels() {
         System.out.println("Initializing monitoring panels.");
-        temps = new TemperaturePanel(stats, colors);
-        fSpeeds = new FanSpeedPanel(stats, colors);
-        times = new TimePanel(stats, colors);
+        temps = new Panel(stats, colors, "Temperature", "0");
+        fSpeeds = new Panel(stats, colors, "Fan Speed", "0");
+        times = new Panel(stats, colors, "Time Elapsed", "0");
 
         add(temps);
         add(fSpeeds);
