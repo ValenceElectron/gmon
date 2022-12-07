@@ -40,6 +40,9 @@ public class StatPanel extends JPanel implements IUpdatablePanel {
         valueText = new JLabel(parameter + ":");
         currentValue = new JLabel(initValue);
 
+        // Class handles multiple parameters, this if-else-if branch lets us display to the user with proper suffixes.
+        // We don't *need* to use suffixes, but it looks much cleaner as a user to have them.
+        //
         if (parameter.equals("Time Elapsed")) {
             startTime = System.currentTimeMillis();
             suffix = "";
@@ -69,12 +72,11 @@ public class StatPanel extends JPanel implements IUpdatablePanel {
 
     //------------------------------------------------------------------------------------------------------------------
 
-    @Override
-    public void peak() {
+    private void peak() {
         peakValue = stats.GetPeak(parameter);
     }
 
-    public void avg() {
+    private void avg() {
         avgValue = stats.GetAverage(parameter);
     }
 
