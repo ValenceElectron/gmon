@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class Panel extends JPanel implements IUpdatablePanel {
+public class StatPanel extends JPanel implements IUpdatablePanel {
     private final Statistics stats;
     private final String parameter;
     private final String suffix;
@@ -30,7 +30,7 @@ public class Panel extends JPanel implements IUpdatablePanel {
 
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    public Panel(Statistics stats, Color[] colors, String parameter, String initValue) {
+    public StatPanel(Statistics stats, Color[] colors, String parameter, String initValue) {
         this.stats = stats; this.parameter = parameter;
         this.colors[0] = colors[0]; this.colors[1] = colors[1]; this.colors[2] = colors[2]; this.colors[3] = colors[3];
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

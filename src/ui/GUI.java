@@ -17,7 +17,7 @@
 package ui;
 
 import stats.Statistics;
-import ui.components.Panel;
+import ui.components.StatPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,15 +25,14 @@ import java.io.IOException;
 
 public class GUI extends JPanel {
     private final Statistics stats;
-    private Panel temps;
-    private Panel fSpeeds;
-    private Panel times;
+    private StatPanel temps;
+    private StatPanel fSpeeds;
+    private StatPanel times;
 
     private final Color[] colors = new Color[4];
 
     // TODO: Menu bar with options to create a custom fan curve + JFrame and JPanels for it.
     // TODO: Add more colors set in main (maybe an array?) to be able to pass to the xPanels. Especially red for critical temps.
-    // TODO: Refactor components to be more object oriented.
     //
     public GUI(Statistics stats, Color[] colors) {
         setLayout(new GridLayout(3,1));
@@ -50,9 +49,9 @@ public class GUI extends JPanel {
 
     private void InitTrackingPanels() {
         System.out.println("Initializing monitoring panels.");
-        temps = new Panel(stats, colors, "Temperature", "0");
-        fSpeeds = new Panel(stats, colors, "Fan Speed", "0");
-        times = new Panel(stats, colors, "Time Elapsed", "0");
+        temps = new StatPanel(stats, colors, "Temperature", "0");
+        fSpeeds = new StatPanel(stats, colors, "Fan Speed", "0");
+        times = new StatPanel(stats, colors, "Time Elapsed", "0");
 
         add(temps);
         add(fSpeeds);
