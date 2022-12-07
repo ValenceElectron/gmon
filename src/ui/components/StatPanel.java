@@ -105,7 +105,7 @@ public class StatPanel extends JPanel implements IUpdatablePanel {
     public void update(LocalTime peak) {
         peak();
         avg();
-        currentValue.setText(parameter + suffix);
+        currentValue.setText(stats.GetCurrent(parameter) + suffix);
         currentValue.setToolTipText("Peak: " + peakValue + suffix + ", Peaked at: " + peak.format(timeFormatter) +
                 ", Average: " + avgValue + suffix);
     }
